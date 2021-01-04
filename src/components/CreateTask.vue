@@ -6,12 +6,21 @@
         <input type="text" required v-model="name">
       </div>
       <div class="class">
-        <label>Difficulty</label>
-        <input type="number" required v-model="difficulty">
+        <label>Description (optional)</label>
+        <textarea v-model="desc"/>
       </div>
       <div class="class">
-        <label>Estimated time</label>
-        <input type="number" required v-model="time">
+        <label>Difficulty {{selectedDifficulty}}</label>
+        <select v-model="selectedDifficulty" required>
+          <option disabled value="">Please select one</option>
+          <option v-for="option in difficulty" :value="option.value" :key="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
+      <div class="class">
+        <label>Estimated length</label>
+        <input type="number" required v-model="length">
       </div>
 
       <button class="class">Create Task</button>
@@ -21,19 +30,32 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';// @ is an alias to /src
+import { Task } from '@/types';
 
 export default defineComponent({
     data() {
         return {
             name: '',
-            difficulty: 0,
-            time: 0
+            desc: '',
+            difficulty: [
+              { text: 'Easy', value: 1 },
+              { text: 'Medium', value: 2 },
+              { text: 'Hard', value: 3 }
+            ],
+            selectedDifficulty: 0,
+            length: 0
         }
     },
     methods: {
         handleSubmit() {
-            if(this.name && this.difficulty && this.time) {
-                console.log(this.name + " " + this.difficulty + " " + this.time)
+            if(this.name && this.difficulty && this.length) {
+                this.$store.commit('addTask', {
+                  name: this.name,
+                  desc: this.desc,
+                  difficulty: this.selectedDifficulty,
+                  length: this.length,
+                } as Task)
+                console.log(this.$store.state.tasks)
             }
         }
     }
