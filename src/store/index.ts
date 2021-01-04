@@ -11,12 +11,12 @@ export default createStore({
     tasks: [] as Task[]
   },
   mutations: {
-    addTask (state, payload) {
+    ADD_TASK (state, payload) {
       const task = {
         name: payload.name,
         desc: payload.desc,
         difficulty: payload.difficulty,
-        length: payload.length 
+        time: payload.time
       }
       state.tasks.push(task)
     }

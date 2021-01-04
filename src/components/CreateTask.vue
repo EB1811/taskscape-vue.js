@@ -13,14 +13,14 @@
         <label>Difficulty {{selectedDifficulty}}</label>
         <select v-model="selectedDifficulty" required>
           <option disabled value="">Please select one</option>
-          <option v-for="option in difficulty" :value="option.value" :key="option.value">
+          <option v-for="option in difficulty" :value="option.value" :key="option.text">
             {{ option.text }}
           </option>
         </select>
       </div>
       <div class="class">
         <label>Estimated length</label>
-        <input type="number" required v-model="length">
+        <input type="number" required v-model="time">
       </div>
 
       <button class="class">Create Task</button>
@@ -43,19 +43,20 @@ export default defineComponent({
               { text: 'Hard', value: 3 }
             ],
             selectedDifficulty: 0,
-            length: 0
+            time: ''
         }
     },
     methods: {
         handleSubmit() {
-            if(this.name && this.difficulty && this.length) {
-                this.$store.commit('addTask', {
+            if(this.name && this.difficulty && this.time) {
+                this.$store.commit('ADD_TASK', {
                   name: this.name,
                   desc: this.desc,
                   difficulty: this.selectedDifficulty,
-                  length: this.length,
+                  time: parseInt(this.time)
                 } as Task)
-                console.log(this.$store.state.tasks)
+
+                ////console.log(this.$store.state.tasks)
             }
         }
     }
