@@ -5,10 +5,11 @@ export default createStore({
   state: {
     playerStats: {
       atk: 1,
-      str: 1,
-      def: 1,
+      str: 2,
+      def: 5,
     } as Stats,
-    tasks: [] as Task[]
+    tasks: [] as Task[],
+    quests: []
   },
   mutations: {
     ADD_TASK (state, payload) {
