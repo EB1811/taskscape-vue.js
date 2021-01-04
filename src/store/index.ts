@@ -4,9 +4,9 @@ import { Stats, Task } from '@/types'
 export default createStore({
   state: {
     playerStats: {
-      atk: 1,
-      str: 2,
-      def: 5,
+      atk: {level: 2, curExp: 150, xpToNext: 150},
+      str: {level: 2, curExp: 150, xpToNext: 150},
+      def: {level: 2, curExp: 150, xpToNext: 150},
     } as Stats,
     tasks: [] as Task[],
     quests: []

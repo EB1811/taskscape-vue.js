@@ -1,9 +1,15 @@
 //* Typescript interfaces.
+// Level information format.
+export interface Level {
+    level: number;
+    curExp: number;
+    xpToNext: number;
+}
 // Format of Player Stats.
 export interface Stats {
-    atk: number;
-    str: number;
-    def: number;
+    atk: Level;
+    str: Level;
+    def: Level;
 }
   
 // Format of a task.

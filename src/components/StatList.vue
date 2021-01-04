@@ -1,7 +1,7 @@
 <template>
   <div class="class">
       <h1 v-for="[name, level] in Object.entries(playerStats)" :key="name">
-          {{ name }}: {{ level }}
+          {{ name }}: {{ level.level }}
       </h1>
   </div>
 </template>
