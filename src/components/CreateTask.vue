@@ -30,7 +30,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';// @ is an alias to /src
-import { Task } from '@/types';
 
 export default defineComponent({
     data() {
@@ -49,14 +48,15 @@ export default defineComponent({
     methods: {
         handleSubmit() {
             if(this.name && this.difficulty && this.time) {
-                this.$store.commit('ADD_TASK', {
+                this.$store.dispatch('CREATE_QUEST', {
                   name: this.name,
                   desc: this.desc,
                   difficulty: this.selectedDifficulty,
                   time: parseInt(this.time)
-                } as Task)
+                })
 
-                ////console.log(this.$store.state.tasks)
+                console.log(this.$store.state.tasks)
+                console.log(this.$store.state.quests)
             }
         }
     }

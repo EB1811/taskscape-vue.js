@@ -31,6 +31,22 @@ export default createStore({
     }
   },
   actions: {
+    CREATE_QUEST ({ commit }, payload) {
+      // Add to database then get id of that document or something.
+      commit('ADD_TASK', {
+        name: payload.name,
+        desc: payload.desc,
+        difficulty: payload.difficulty,
+        time: payload.time
+      })
+      
+      const xp: number = payload.difficulty * payload.time
+      commit('ADD_QUEST', {
+        name: 'Complete task: "' + payload.name + '"',
+        id: 'id1',
+        exp: xp
+      })
+    }
   },
   modules: {
   }
