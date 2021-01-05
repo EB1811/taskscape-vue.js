@@ -22,6 +22,7 @@ export interface Task {
 }
 // Format of a quest.
 export interface Quest {
+    id?: string;
     name: string;
     taskId: string;
     expReward: number;

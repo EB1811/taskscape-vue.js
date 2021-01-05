@@ -16,28 +16,22 @@ const store = createStore({
   getters: {
     getTasks (state) {
       return state.tasks;
-  }
+    },
+    getQuests (state) {
+      return state.quests;
+    }
   },
 
   mutations: {
     ADD_TASK (state, payload) {
-      const task: Task = {
-        name: payload.name,
-        desc: payload.desc,
-        difficulty: payload.difficulty,
-        time: payload.time
-      }
-      if(state.tasks.length < 100) {
-        state.tasks.push(task)
+      if(payload.tasks.length < 100) {
+        state.tasks = payload.tasks
       }
     },
     ADD_QUEST (state, payload) {
-      const quest: Quest = {
-        name: payload.name,
-        taskId: payload.id,
-        expReward: payload.exp
+      if(payload.quests.length < 100) {
+        state.quests = payload.quests
       }
-      state.quests.push(quest)
     }
   },
 
@@ -47,39 +41,86 @@ const store = createStore({
       db.collection("OngoingTasks")
       .get()
       .then((querySnapshot) => {
-        
+        const tasks: Task[] = [];
         querySnapshot.forEach((doc) => {
-           {
-            commit('ADD_TASK', {
-                id: doc.id,
-                name: doc.data().name,
-                desc: doc.data().description,
-                difficulty: doc.data().difficulty,
-                time: doc.data().time
-            });
-          }
+          tasks.push({
+            id: doc.id,
+            name: doc.data().name,
+            desc: doc.data().description,
+            difficulty: doc.data().difficulty,
+            time: doc.data().time
+          })
         });
 
+        commit('ADD_TASK', { tasks });
+      })
+      .catch((error) => {
+          console.log("Error getting documents: ", error);
+      });
+    },
+    // Get quests from firestore.
+    FETCH_QUESTS ({ commit }) {
+      db.collection("OngoingQuests")
+      .get()
+      .then((querySnapshot) => {
+        const quests: Quest[] = [];
+        querySnapshot.forEach((doc) => {
+          quests.push({
+            id: doc.id,
+            name: doc.data().name,
+            taskId: doc.data().taskId,
+            expReward: doc.data().expReward
+          })
+
+          commit('ADD_QUEST', { quests });
+        });
       })
       .catch((error) => {
           console.log("Error getting documents: ", error);
       });
     },
 
-    CREATE_QUEST ({ commit }, payload) {
-      // Add to database then get id of that document or something.
-      commit('ADD_TASK', {
+    CREATE_QUEST ({ dispatch }, payload) {
+      // Add task.
+      let newTaskId = '';
+      db.collection("OngoingTasks")
+      .add({
         name: payload.name,
         desc: payload.desc,
         difficulty: payload.difficulty,
-        time: payload.time
+        time: payload.time,
+        dataCreated: new Date()
       })
-      
-      const xp: number = payload.difficulty * payload.time
-      commit('ADD_QUEST', {
+      .then((docRef) => {
+          console.log("Document successfully written!");
+          newTaskId = docRef.id;
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+        ////console.log("DEMO website: rants are not being added to the database");
+      }).then(() => {
+
+      // Then add quest.
+      db.collection("OngoingQuests")
+      .add({
         name: 'Complete task: "' + payload.name + '"',
-        id: 'id1',
-        exp: xp
+        desc: payload.desc,
+        taskId: newTaskId,
+        expReward: payload.difficulty * payload.time,
+        dataCreated: new Date()
+      })
+      .then(() => {
+        console.log("Document successfully written!");
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+        ////console.log("DEMO website: rants are not being added to the database");
+      })
+      })
+      .then(() => {
+      // Then update state.
+      dispatch("FETCH_TASKS");
+      dispatch("FETCH_QUESTS");
       })
     }
   },
@@ -89,5 +130,6 @@ const store = createStore({
 });
 
 store.dispatch("FETCH_TASKS");
+store.dispatch("FETCH_QUESTS");
 
 export default store;
