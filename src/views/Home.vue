@@ -2,6 +2,7 @@
   <div>
     <StatList/>
     <CreateTask/>
+    <QuestList/>
   </div>
 </template>
 
@@ -10,8 +11,9 @@ import { defineComponent } from 'vue';// @ is an alias to /src
 
 import CreateTask from '../components/CreateTask.vue';
 import StatList from '../components/StatList.vue';
+import QuestList from '../components/QuestList.vue';
 
 export default defineComponent({
-  components: { CreateTask, StatList },
+  components: { CreateTask, StatList, QuestList },
 });
 </script>

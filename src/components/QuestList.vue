@@ -1,8 +1,9 @@
 <template>
   <div class="class">
-      <h1 v-for="[name, level] in Object.entries(playerStats)" :key="name">
-          {{ name }}: {{ level.level }}
+      <h1>
+          Quests
       </h1>
+      
   </div>
 </template>
 
@@ -11,8 +12,8 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     computed: {
-        playerStats() {
-            return this.$store.state.playerStats;
+        quests() {
+            return this.$store.state.quests;
         }
     }
 })

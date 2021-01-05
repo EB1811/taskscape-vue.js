@@ -19,3 +19,9 @@ export interface Task {
     difficulty: 1|2|3|4|5|6|7|8;
     time: number;
 }
+// Format of a quest.
+export interface Quest {
+    name: string;
+    taskId: string;
+    expReward: number;
+}
