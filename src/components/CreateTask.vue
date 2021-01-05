@@ -55,8 +55,8 @@ export default defineComponent({
                   time: parseInt(this.time)
                 })
 
-                console.log(this.$store.state.tasks)
-                console.log(this.$store.state.quests)
+                ////console.log(this.$store.state.tasks)
+                ////console.log(this.$store.state.quests)
             }
         }
     }

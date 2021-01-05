@@ -3,7 +3,9 @@
       <h1>
           Quests
       </h1>
-      
+      <h1 v-for="quest in quests" :key="quest.name">
+          {{ quest.name }}: {{ quest.expReward }}
+      </h1>
   </div>
 </template>
 
