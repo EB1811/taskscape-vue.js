@@ -9,7 +9,7 @@ export interface Level {
 export interface Stats {
     atk: Level;
     str: Level;
-    def: Level;
+    def?: Level;
 }
   
 // Format of a task.

@@ -4,11 +4,7 @@ import { db } from '@/firebaseConfig';
 
 const store = createStore({
   state: {
-    playerStats: {
-      atk: {level: 2, curExp: 150, xpToNext: 150},
-      str: {level: 2, curExp: 150, xpToNext: 150},
-      def: {level: 2, curExp: 150, xpToNext: 150},
-    } as Stats,
+    playerStats: {} as Stats,
     tasks: [] as Task[],
     quests: [] as Quest[]
   },
@@ -19,6 +15,9 @@ const store = createStore({
     },
     getQuests (state) {
       return state.quests;
+    },
+    getStats (state) {
+      return state.playerStats;
     }
   },
 
@@ -32,10 +31,14 @@ const store = createStore({
       if(payload.quests.length < 100) {
         state.quests = payload.quests
       }
+    },
+    SET_STATS (state, payload) {
+      state.playerStats = payload.playerStats
     }
   },
 
   actions: {
+    //* Fetching from firestore.
     // Get tasks from firestore.
     FETCH_TASKS ({ commit }) {
       db.collection("OngoingTasks")
@@ -79,7 +82,29 @@ const store = createStore({
           console.log("Error getting documents: ", error);
       });
     },
+    // Get player stats from firestore.
+    //TODO get doc with user id equal to logged in user id.
+    FETCH_SKILLS ({ commit }) {
+      db.collection("PlayerStats")
+      .get()
+      .then((querySnapshot) => {
+        let playerStats = {} as Stats;
+        querySnapshot.forEach((doc) => {
+          playerStats = {
+            atk: doc.data().atk,
+            str: doc.data().str,
+          }
+        });
 
+        commit('SET_STATS', { playerStats });
+      })
+      .catch((error) => {
+          console.log("Error getting documents: ", error);
+      });
+    },
+
+
+    //* Modifications to firestore
     CREATE_QUEST ({ dispatch }, payload) {
       // Add task.
       let newTaskId = '';
@@ -129,6 +154,7 @@ const store = createStore({
   }
 });
 
+store.dispatch("FETCH_SKILLS");
 store.dispatch("FETCH_TASKS");
 store.dispatch("FETCH_QUESTS");
 
