@@ -20,7 +20,7 @@ export default defineComponent({
         finishTask(task: Task) {
             if(!task.complete) {
                 this.$store.dispatch('FINISH_TASK', {
-                    taskId: task.id
+                    finishedTaskId: task.id
                 })
             }
             else {

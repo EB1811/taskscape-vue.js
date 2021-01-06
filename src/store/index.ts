@@ -73,7 +73,8 @@ const store = createStore({
             id: doc.id,
             name: doc.data().name,
             taskId: doc.data().taskId,
-            expReward: doc.data().expReward
+            expReward: doc.data().expReward,
+            complete: doc.data().complete
           })
 
           commit('ADD_QUEST', { quests });
@@ -116,7 +117,8 @@ const store = createStore({
         desc: payload.desc,
         difficulty: payload.difficulty,
         time: payload.time,
-        dataCreated: new Date()
+        complete: false,
+        dataCreated: new Date(),
       })
       .then((docRef) => {
           console.log("Document successfully written!");
@@ -134,6 +136,7 @@ const store = createStore({
         desc: payload.desc,
         taskId: newTaskId,
         expReward: payload.difficulty * payload.time,
+        complete: false,
         dataCreated: new Date()
       })
       .then(() => {
@@ -152,14 +155,56 @@ const store = createStore({
     },
     // Complete a task.
     FINISH_TASK ({ dispatch }, payload) {
+      //TODO update state first.
+
+      // Complete task.
       db.collection('OngoingTasks')
-      .doc(payload.taskId)
+      .doc(payload.finishedTaskId)
       .update({
         complete: true
       })
       .then(() => {
         console.log('Success');
         dispatch('FETCH_TASKS');
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      })
+      .then(() => {
+        // Then check if quest is now complete. Dispatch if it is.
+        db.collection('OngoingQuests')
+        .get()
+        .then((querySnapshot) => {
+          let finishedQuestId = '';
+          querySnapshot.forEach((doc) => {
+            if(doc.data().taskId == payload.finishedTaskId) {
+              finishedQuestId = doc.id;
+            }
+          })
+
+          dispatch('FINISH_QUEST', {
+            finishedQuestId: finishedQuestId
+          });
+        })
+        .catch((error) => {
+          console.error("Error reading document: ", error);
+          ////console.log("DEMO website: rants are not being added to the database");
+        })
+      })
+    },
+    // Complete a quest.
+    FINISH_QUEST ({ dispatch }, payload) {
+      //TODO update state first.
+
+      // Complete task.
+      db.collection('OngoingQuests')
+      .doc(payload.finishedQuestId)
+      .update({
+        complete: true
+      })
+      .then(() => {
+        console.log('Success');
+        dispatch('FETCH_QUESTS');
       })
       .catch((error) => {
         console.error("Error updating document: ", error);

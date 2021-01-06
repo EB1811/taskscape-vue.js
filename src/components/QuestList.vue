@@ -4,7 +4,7 @@
             Quests:
         </h1>
         <h1 v-for="quest in quests" :key="quest.name">
-            {{ quest.name }} | Reward: {{ quest.expReward }}
+            {{ quest.name }} | Reward: {{ quest.expReward }} | Status: {{quest.complete ? 'Complete' : 'Ongoing'}}
         </h1>
   </div>
 </template>

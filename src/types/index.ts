@@ -27,4 +27,5 @@ export interface Quest {
     name: string;
     taskId: string;
     expReward: number;
+    complete: boolean;
 }
