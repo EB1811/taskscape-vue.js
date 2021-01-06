@@ -1,10 +1,10 @@
 <template>
   <div class="class">
         <h1>
-            Quests:
+            Tasks:
         </h1>
-        <h1 v-for="quest in quests" :key="quest.name">
-            {{ quest.name }} | Reward: {{ quest.expReward }}
+        <h1 v-for="task in tasks" :key="task.name">
+            {{ task.name }}
         </h1>
   </div>
 </template>
@@ -16,7 +16,7 @@ import { mapGetters } from 'vuex';
 export default defineComponent({
     computed: {
         ...mapGetters({
-            quests: 'getQuests'
+            tasks: 'getTasks'
         })
     }
 })
