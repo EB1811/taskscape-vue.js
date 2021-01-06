@@ -51,7 +51,8 @@ const store = createStore({
             name: doc.data().name,
             desc: doc.data().description,
             difficulty: doc.data().difficulty,
-            time: doc.data().time
+            time: doc.data().time,
+            complete: doc.data().complete
           })
         });
 
@@ -105,6 +106,7 @@ const store = createStore({
 
 
     //* Modifications to firestore
+    // Create quest.
     CREATE_QUEST ({ dispatch }, payload) {
       // Add task.
       let newTaskId = '';
@@ -146,6 +148,21 @@ const store = createStore({
       // Then update state.
       dispatch("FETCH_TASKS");
       dispatch("FETCH_QUESTS");
+      })
+    },
+    // Complete a task.
+    FINISH_TASK ({ dispatch }, payload) {
+      db.collection('OngoingTasks')
+      .doc(payload.taskId)
+      .update({
+        complete: true
+      })
+      .then(() => {
+        console.log('Success');
+        dispatch('FETCH_TASKS');
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
       })
     }
   },

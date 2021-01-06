@@ -19,6 +19,7 @@ export interface Task {
     desc?: string;
     difficulty: 1|2|3|4|5|6|7|8;
     time: number;
+    complete: boolean;
 }
 // Format of a quest.
 export interface Quest {
