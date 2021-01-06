@@ -5,7 +5,7 @@
         </h1>
         <h1 v-for="task in tasks" :key="task.name">
             {{ task.name }} | Status: {{task.complete ? 'Complete' : 'Ongoing'}}
-            <input type="checkbox" @change="finishTask(task.id)"/>
+            <input type="checkbox" :checked="task.complete" :disabled="task.complete" @change="finishTask(task)"/>
         </h1>
   </div>
 </template>
@@ -13,13 +13,19 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import { Task } from '@/types'
 
 export default defineComponent({
     methods: {
-        finishTask(taskId: string) {
-            this.$store.dispatch('FINISH_TASK', {
-                taskId: taskId
-            })
+        finishTask(task: Task) {
+            if(!task.complete) {
+                this.$store.dispatch('FINISH_TASK', {
+                    taskId: task.id
+                })
+            }
+            else {
+                console.log("Error: task already complete");
+            }
         }
     },
     computed: {
