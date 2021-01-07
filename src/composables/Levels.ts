@@ -10,11 +10,11 @@ const Levels = [
 
 export const getLevel = (exp: number): Level => {
     const correctLevel: number = Levels.findIndex((level) => {
-        console.log("Inside filter function: exp parameter = " + exp)
+        ////console.log("Inside filter function: exp parameter = " + exp)
         return (level.endExp > exp)
     })
 
-    console.log('Get level function: correctLevel = ' + correctLevel)
+    ////console.log('Get level function: correctLevel = ' + correctLevel)
 
     const newLevel = {
         level: correctLevel + 1,

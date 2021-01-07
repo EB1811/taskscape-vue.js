@@ -224,8 +224,6 @@ const store = createStore({
       const playerStats = newStats
       commit('SET_STATS', { playerStats })
 
-      console.log('Line 227: expReward = ' + expReward.toString + ', newStats.curAtkXp: ' + newStats.atk.curExp.toString + ', state stats: ' + this.state.playerStats.atk.level.toString)
-
       // Firestore.
       db.collection('PlayerStats')
       //! doc will be based on player login id.
