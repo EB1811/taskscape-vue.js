@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import { Stats, Task, Quest } from '@/types'
 import { db } from '@/firebaseConfig';
+import { getLevel } from '@/composables/Levels'
 
 const store = createStore({
   state: {
@@ -171,7 +172,7 @@ const store = createStore({
         console.error("Error updating document: ", error);
       })
       .then(() => {
-        // Then check if quest is now complete. Dispatch if it is.
+        // Then check if a quest is now complete. Dispatch if it is.
         db.collection('OngoingQuests')
         .get()
         .then((querySnapshot) => {
@@ -193,10 +194,10 @@ const store = createStore({
       })
     },
     // Complete a quest.
-    FINISH_QUEST ({ dispatch }, payload) {
+    FINISH_QUEST ({ dispatch, commit }, payload) {
       //TODO update state first.
 
-      // Complete task.
+      // Complete quest.
       db.collection('OngoingQuests')
       .doc(payload.finishedQuestId)
       .update({
@@ -208,6 +209,37 @@ const store = createStore({
       })
       .catch((error) => {
         console.error("Error updating document: ", error);
+      })
+
+      // Then update player stats. In state first.
+      const expReward: number = this.state.quests.filter((quest) => {
+        return quest.id === payload.finishedQuestId
+      })[0].expReward
+      const newStats: Stats = {
+        atk: getLevel(this.state.playerStats.atk.curExp + expReward),
+        str: getLevel(this.state.playerStats.str.curExp + expReward)
+      }
+
+      // Commit to state.
+      const playerStats = newStats
+      commit('SET_STATS', { playerStats })
+
+      console.log('Line 227: expReward = ' + expReward.toString + ', newStats.curAtkXp: ' + newStats.atk.curExp.toString + ', state stats: ' + this.state.playerStats.atk.level.toString)
+
+      // Firestore.
+      db.collection('PlayerStats')
+      //! doc will be based on player login id.
+      .doc('nAmU1YGRYmYTbxTBLNs6')
+      .update({
+        //! Relevant stats will be updated (currently xp reward is just a number)
+        atk: newStats.atk,
+        str: newStats.str
+      })
+      .then(() => {
+        dispatch("FETCH_SKILLS");
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
       })
     }
   },
