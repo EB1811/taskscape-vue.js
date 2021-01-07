@@ -2,12 +2,17 @@ import { createStore } from 'vuex'
 import { Stats, Task, Quest } from '@/types'
 import { db } from '@/firebaseConfig';
 import { getLevel } from '@/composables/Levels'
+import firebase from 'firebase';
 
 const store = createStore({
   state: {
     playerStats: {} as Stats,
     tasks: [] as Task[],
-    quests: [] as Quest[]
+    quests: [] as Quest[],
+    user: {
+      loggedIn: false,
+      data: null
+    }
   },
 
   getters: {
@@ -19,6 +24,9 @@ const store = createStore({
     },
     getStats (state) {
       return state.playerStats;
+    },
+    getUser (state) {
+      return state.user
     }
   },
 
@@ -35,10 +43,61 @@ const store = createStore({
     },
     SET_STATS (state, payload) {
       state.playerStats = payload.playerStats
+    },
+
+    // Auth
+    SET_LOGGED_IN(state, value) {
+      state.user.loggedIn = value;
+    },
+    SET_USER(state, data) {
+      state.user.data = data;
     }
   },
 
   actions: {
+    //* Authentication actions.
+    CREATE_ACCOUNT (state, payload) {
+      firebase.auth()
+      .createUserWithEmailAndPassword(payload.email, payload.password)
+      .then(() => {
+        console.log("Registration success")
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+    },
+    LOGIN (state, payload) {
+      firebase.auth()
+      .signInWithEmailAndPassword(payload.email, payload.password)
+      .then(() => {
+        console.log("Login success")
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+    },
+    LOGOUT () {
+      firebase.auth()
+      .signOut()
+      .then(() => {
+        console.log("Logout success")
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+    },
+    FETCH_AUTH_STATUS({ commit }, user) {
+      commit("SET_LOGGED_IN", user !== null);
+      if (user) {
+        commit("SET_USER", {
+          email: user.email,
+          userId: user.uid
+        });
+      } else {
+        commit("SET_USER", null);
+      }
+    },
+
     //* Fetching from firestore.
     // Get tasks from firestore.
     FETCH_TASKS ({ commit }) {
@@ -249,5 +308,8 @@ const store = createStore({
 store.dispatch("FETCH_SKILLS");
 store.dispatch("FETCH_TASKS");
 store.dispatch("FETCH_QUESTS");
+firebase.auth().onAuthStateChanged(user => {
+  store.dispatch("FETCH_AUTH_STATUS", user);
+});
 
 export default store;
