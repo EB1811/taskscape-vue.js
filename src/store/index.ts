@@ -45,6 +45,13 @@ const store = createStore({
       state.playerStats = payload.playerStats
     },
 
+    // Clear data from state.
+    CLEAR_STATE (state) {
+      state.tasks = [] as Task[]
+      state.quests = [] as Quest[] 
+      state.playerStats = {} as Stats
+    },
+
     // Auth
     SET_LOGGED_IN(state, value) {
       state.user.loggedIn = value;
@@ -100,7 +107,10 @@ const store = createStore({
         commit("SET_USER", null);
       }
 
+      // Fetch all data belonging to user (using user id)
       dispatch('FETCH_SKILLS')
+      dispatch("FETCH_TASKS");
+      dispatch("FETCH_QUESTS");
     },
 
 
@@ -127,55 +137,72 @@ const store = createStore({
 
     //* Fetching from firestore.
     // Get tasks from firestore.
-    FETCH_TASKS ({ commit }) {
-      db.collection("OngoingTasks")
-      .get()
-      .then((querySnapshot) => {
-        const tasks: Task[] = [];
-        querySnapshot.forEach((doc) => {
-          tasks.push({
-            id: doc.id,
-            name: doc.data().name,
-            desc: doc.data().description,
-            difficulty: doc.data().difficulty,
-            time: doc.data().time,
-            complete: doc.data().complete
-          })
-        });
+    FETCH_TASKS ({ commit, getters  }) {
+      if(getters.getUser.loggedIn) {
 
-        commit('ADD_TASK', { tasks });
-      })
-      .catch((error) => {
-          console.log("Error getting documents: ", error);
-      });
+        console.log("Logged in. Fetching tasks")
+        db.collection("OngoingTasks")
+        .where('owner', '==', getters.getUser.data.userId)
+        .get()
+        .then((querySnapshot) => {
+          const tasks: Task[] = [];
+          querySnapshot.forEach((doc) => {
+            tasks.push({
+              id: doc.id,
+              name: doc.data().name,
+              desc: doc.data().description,
+              difficulty: doc.data().difficulty,
+              time: doc.data().time,
+              complete: doc.data().complete
+            })
+          });
+
+          commit('ADD_TASK', { tasks });
+          console.log("Fetching tasks success")
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+      } else {
+        commit('CLEAR_STATE');
+      }
     },
     // Get quests from firestore.
-    FETCH_QUESTS ({ commit }) {
-      db.collection("OngoingQuests")
-      .get()
-      .then((querySnapshot) => {
-        const quests: Quest[] = [];
-        querySnapshot.forEach((doc) => {
-          quests.push({
-            id: doc.id,
-            name: doc.data().name,
-            taskId: doc.data().taskId,
-            expReward: doc.data().expReward,
-            complete: doc.data().complete
-          })
+    FETCH_QUESTS ({ commit, getters  }) {
+      if(getters.getUser.loggedIn) {
 
-          commit('ADD_QUEST', { quests });
+        console.log("Logged in. Fetching quests")
+        db.collection("OngoingQuests")
+        .where('owner', '==', getters.getUser.data.userId)
+        .get()
+        .then((querySnapshot) => {
+          const quests: Quest[] = [];
+          querySnapshot.forEach((doc) => {
+            quests.push({
+              id: doc.id,
+              name: doc.data().name,
+              taskId: doc.data().taskId,
+              expReward: doc.data().expReward,
+              complete: doc.data().complete
+            })
+
+            commit('ADD_QUEST', { quests });
+            console.log("Fetching quests success")
+          });
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
         });
-      })
-      .catch((error) => {
-          console.log("Error getting documents: ", error);
-      });
+      } else {
+        commit('CLEAR_STATE');
+      }
     },
     // Get player stats from firestore.
     FETCH_SKILLS ({ commit, getters }) {
       ////console.log('FETCH SKILLS Method: data:' + (getters.getUser.loggedIn))
       if(getters.getUser.loggedIn) {
-        ////console.log('FETCH SKILLS Method: Inside if, userId: ' + getters.getUser.data.userId)
+
+        console.log("Logged in. Fetching Skills")
         db.collection("PlayerStats")
         .doc(getters.getUser.data.userId)
         .get()
@@ -196,56 +223,62 @@ const store = createStore({
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
+      } else {
+        commit('CLEAR_STATE');
       }
     },
 
 
     //* Modifications to firestore
     // Create quest.
-    CREATE_QUEST ({ dispatch }, payload) {
-      // Add task.
-      let newTaskId = '';
-      db.collection("OngoingTasks")
-      .add({
-        name: payload.name,
-        desc: payload.desc,
-        difficulty: payload.difficulty,
-        time: payload.time,
-        complete: false,
-        dataCreated: new Date(),
-      })
-      .then((docRef) => {
-          console.log("Document successfully written!");
-          newTaskId = docRef.id;
-      })
-      .catch((error) => {
-        console.error("Error writing document: ", error);
-        ////console.log("DEMO website: rants are not being added to the database");
-      }).then(() => {
+    CREATE_QUEST ({ dispatch, getters }, payload) {
+      if(getters.getUser.loggedIn) {
+        // Add task.
+        let newTaskId = '';
+        db.collection("OngoingTasks")
+        .add({
+          name: payload.name,
+          desc: payload.desc,
+          difficulty: payload.difficulty,
+          time: payload.time,
+          complete: false,
+          dataCreated: new Date(),
+          owner: getters.getUser.data.userId
+        })
+        .then((docRef) => {
+            console.log("Document successfully written!");
+            newTaskId = docRef.id;
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+          ////console.log("DEMO website: rants are not being added to the database");
+        }).then(() => {
 
-      // Then add quest.
-      db.collection("OngoingQuests")
-      .add({
-        name: 'Complete task: "' + payload.name + '"',
-        desc: payload.desc,
-        taskId: newTaskId,
-        expReward: payload.difficulty * payload.time,
-        complete: false,
-        dataCreated: new Date()
-      })
-      .then(() => {
-        console.log("Document successfully written!");
-      })
-      .catch((error) => {
-        console.error("Error writing document: ", error);
-        ////console.log("DEMO website: rants are not being added to the database");
-      })
-      })
-      .then(() => {
-      // Then update state.
-      dispatch("FETCH_TASKS");
-      dispatch("FETCH_QUESTS");
-      })
+        // Then add quest.
+        db.collection("OngoingQuests")
+        .add({
+          name: 'Complete task: "' + payload.name + '"',
+          desc: payload.desc,
+          taskId: newTaskId,
+          expReward: payload.difficulty * payload.time,
+          complete: false,
+          dataCreated: new Date(),
+          owner: getters.getUser.data.userId
+        })
+        .then(() => {
+          console.log("Document successfully written!");
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+          ////console.log("DEMO website: rants are not being added to the database");
+        })
+        })
+        .then(() => {
+        // Then update state.
+        dispatch("FETCH_TASKS");
+        dispatch("FETCH_QUESTS");
+        })
+      }
     },
     // Complete a task.
     FINISH_TASK ({ dispatch }, payload) {
@@ -320,10 +353,9 @@ const store = createStore({
       // Firestore.
       if(this.state.user != null) {
         db.collection('PlayerStats')
-        //! doc will be based on player login id.
-        .doc(getters.getUser)
+        .doc(getters.getUser.data.userId)
         .update({
-          //! Relevant stats will be updated (currently xp reward is just a number)
+          //TODO Relevant stats will be updated (currently xp reward is just a number)
           atk: newStats.atk,
           str: newStats.str
         })
@@ -341,8 +373,6 @@ const store = createStore({
   }
 });
 
-store.dispatch("FETCH_TASKS");
-store.dispatch("FETCH_QUESTS");
 firebase.auth().onAuthStateChanged(user => {
   store.dispatch("FETCH_AUTH_STATUS", user);
 });
