@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { Stats, Task, Quest } from '@/types'
+import { Stats, Task, Quest, Level } from '@/types'
 import { db } from '@/firebaseConfig';
 import { getLevel } from '@/composables/Levels'
 import firebase from 'firebase';
@@ -56,11 +56,14 @@ const store = createStore({
 
   actions: {
     //* Authentication actions.
-    CREATE_ACCOUNT (state, payload) {
+    CREATE_ACCOUNT ({dispatch}, payload) {
       firebase.auth()
       .createUserWithEmailAndPassword(payload.email, payload.password)
-      .then(() => {
+      .then((userObject) => {
         console.log("Registration success")
+
+        // Then create a player with using the user id.
+        dispatch('CREATE_PLAYER', { uId: userObject.user?.uid })
       })
       .catch((error) => {
         console.log("Error: ", error);
@@ -86,7 +89,7 @@ const store = createStore({
         console.log("Error: ", error);
       });
     },
-    FETCH_AUTH_STATUS({ commit }, user) {
+    FETCH_AUTH_STATUS({ commit, dispatch }, user) {
       commit("SET_LOGGED_IN", user !== null);
       if (user) {
         commit("SET_USER", {
@@ -96,7 +99,31 @@ const store = createStore({
       } else {
         commit("SET_USER", null);
       }
+
+      dispatch('FETCH_SKILLS')
     },
+
+
+    // Player actions
+    CREATE_PLAYER ({ dispatch }, payload) {
+      const newPlayerLevel: Level = getLevel(0);
+
+      db.collection("PlayerStats")
+      .doc(payload.uId)
+      .set({
+        atk: newPlayerLevel,
+        str: newPlayerLevel,
+        def: newPlayerLevel,
+      })
+      .then(() => {
+          dispatch('FETCH_SKILLS')
+          console.log("Player successfully created.");
+      })
+      .catch((error) => {
+        console.error("Error creating player: ", error);
+      })
+    },
+
 
     //* Fetching from firestore.
     // Get tasks from firestore.
@@ -145,24 +172,31 @@ const store = createStore({
       });
     },
     // Get player stats from firestore.
-    //TODO get doc with user id equal to logged in user id.
-    FETCH_SKILLS ({ commit }) {
-      db.collection("PlayerStats")
-      .get()
-      .then((querySnapshot) => {
-        let playerStats = {} as Stats;
-        querySnapshot.forEach((doc) => {
-          playerStats = {
-            atk: doc.data().atk,
-            str: doc.data().str,
-          }
-        });
+    FETCH_SKILLS ({ commit, getters }) {
+      ////console.log('FETCH SKILLS Method: data:' + (getters.getUser.loggedIn))
+      if(getters.getUser.loggedIn) {
+        ////console.log('FETCH SKILLS Method: Inside if, userId: ' + getters.getUser.data.userId)
+        db.collection("PlayerStats")
+        .doc(getters.getUser.data.userId)
+        .get()
+        .then((doc) => {
+          let playerStats = {} as Stats;
+          const playerData = doc.data();
+          if(playerData) {
+            playerStats = {
+              atk: playerData.atk,
+              str: playerData.str,
+            }
 
-        commit('SET_STATS', { playerStats });
-      })
-      .catch((error) => {
+            commit('SET_STATS', { playerStats });
+
+            console.log("Fetching skills success")
+          }
+        })
+        .catch((error) => {
           console.log("Error getting documents: ", error);
-      });
+        });
+      }
     },
 
 
@@ -253,7 +287,7 @@ const store = createStore({
       })
     },
     // Complete a quest.
-    FINISH_QUEST ({ dispatch, commit }, payload) {
+    FINISH_QUEST ({ dispatch, commit, getters }, payload) {
       //TODO update state first.
 
       // Complete quest.
@@ -284,20 +318,22 @@ const store = createStore({
       commit('SET_STATS', { playerStats })
 
       // Firestore.
-      db.collection('PlayerStats')
-      //! doc will be based on player login id.
-      .doc('nAmU1YGRYmYTbxTBLNs6')
-      .update({
-        //! Relevant stats will be updated (currently xp reward is just a number)
-        atk: newStats.atk,
-        str: newStats.str
-      })
-      .then(() => {
-        dispatch("FETCH_SKILLS");
-      })
-      .catch((error) => {
-        console.error("Error: ", error);
-      })
+      if(this.state.user != null) {
+        db.collection('PlayerStats')
+        //! doc will be based on player login id.
+        .doc(getters.getUser)
+        .update({
+          //! Relevant stats will be updated (currently xp reward is just a number)
+          atk: newStats.atk,
+          str: newStats.str
+        })
+        .then(() => {
+          dispatch("FETCH_SKILLS");
+        })
+        .catch((error) => {
+          console.error("Error: ", error);
+        })
+      }
     }
   },
 
@@ -305,7 +341,6 @@ const store = createStore({
   }
 });
 
-store.dispatch("FETCH_SKILLS");
 store.dispatch("FETCH_TASKS");
 store.dispatch("FETCH_QUESTS");
 firebase.auth().onAuthStateChanged(user => {
