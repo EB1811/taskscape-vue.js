@@ -231,9 +231,20 @@ const store = createStore({
 
     //* Modifications to firestore
     // Create quest.
-    CREATE_QUEST ({ dispatch, getters }, payload) {
+    CREATE_QUEST ({ dispatch, commit, getters }, payload) {
       if(getters.getUser.loggedIn) {
-        // Add task.
+        // Add to state first.
+        const tasks: Task[] = [];
+        tasks.push({
+          name: payload.name,
+          desc: payload.desc,
+          difficulty: payload.difficulty,
+          time: payload.time,
+          complete: false,
+        })
+        commit('ADD_TASK', { tasks });
+
+        // Add task to firestore.
         let newTaskId = '';
         db.collection("OngoingTasks")
         .add({
@@ -255,10 +266,20 @@ const store = createStore({
         }).then(() => {
 
         // Then add quest.
+        // Add to state first.
+        const quests: Quest[] = [];
+        quests.push({
+          name: 'Complete task: "' + payload.name + '"',
+          taskId: newTaskId,
+          expReward: payload.difficulty * payload.time,
+          complete: false,
+        })
+        commit('ADD_QUEST', { quests });
+
+        // Add quest to firebase.
         db.collection("OngoingQuests")
         .add({
           name: 'Complete task: "' + payload.name + '"',
-          desc: payload.desc,
           taskId: newTaskId,
           expReward: payload.difficulty * payload.time,
           complete: false,
