@@ -121,9 +121,9 @@ const store = createStore({
       db.collection("PlayerStats")
       .doc(payload.uId)
       .set({
-        atk: newPlayerLevel,
-        str: newPlayerLevel,
-        def: newPlayerLevel,
+        level: newPlayerLevel,
+        ////str: newPlayerLevel,
+        ////def: newPlayerLevel,
       })
       .then(() => {
           dispatch('FETCH_SKILLS')
@@ -211,8 +211,8 @@ const store = createStore({
           const playerData = doc.data();
           if(playerData) {
             playerStats = {
-              atk: playerData.atk,
-              str: playerData.str,
+              level: playerData.level,
+              ////str: playerData.str,
             }
 
             commit('SET_STATS', { playerStats });
@@ -315,81 +315,100 @@ const store = createStore({
         complete: true
       })
       .then(() => {
-        console.log('Success');
+        console.log('Task update success');
         dispatch('FETCH_TASKS');
+        dispatch('FINISH_QUEST', {
+          taskId: payload.finishedTaskId
+        });
       })
       .catch((error) => {
-        console.error("Error updating document: ", error);
+        console.error("Error: ", error);
+        ////console.log("DEMO website: rants are not being added to the database");
       })
-      .then(() => {
-        // Then check if a quest is now complete. Dispatch if it is.
-        db.collection('OngoingQuests')
-        .get()
-        .then((querySnapshot) => {
-          let finishedQuestId = '';
-          querySnapshot.forEach((doc) => {
-            if(doc.data().taskId == payload.finishedTaskId) {
-              finishedQuestId = doc.id;
-            }
-          })
+    },
+    DELETE_TASK ({ dispatch }, payload) {
+      //TODO update state first.
 
-          dispatch('FINISH_QUEST', {
-            finishedQuestId: finishedQuestId
-          });
-        })
-        .catch((error) => {
-          console.error("Error reading document: ", error);
-          ////console.log("DEMO website: rants are not being added to the database");
-        })
+      // Delete task.
+      db.collection('OngoingTasks')
+      .doc(payload.deletedTaskId)
+      .delete()
+      .then(() => {
+        console.log('Task deletion success');
+        dispatch('FETCH_TASKS');
+        dispatch('DELETE_QUEST', {
+          taskId: payload.deletedTaskId
+        });
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+        ////console.log("DEMO website: rants are not being added to the database");
       })
     },
     // Complete a quest.
     FINISH_QUEST ({ dispatch, commit, getters }, payload) {
       //TODO update state first.
-
       // Complete quest.
       db.collection('OngoingQuests')
-      .doc(payload.finishedQuestId)
-      .update({
-        complete: true
-      })
-      .then(() => {
-        console.log('Success');
-        dispatch('FETCH_QUESTS');
-      })
-      .catch((error) => {
-        console.error("Error updating document: ", error);
-      })
-
-      // Then update player stats. In state first.
-      const expReward: number = this.state.quests.filter((quest) => {
-        return quest.id === payload.finishedQuestId
-      })[0].expReward
-      const newStats: Stats = {
-        atk: getLevel(this.state.playerStats.atk.curExp + expReward),
-        str: getLevel(this.state.playerStats.str.curExp + expReward)
-      }
-
-      // Commit to state.
-      const playerStats = newStats
-      commit('SET_STATS', { playerStats })
-
-      // Firestore.
-      if(this.state.user != null) {
-        db.collection('PlayerStats')
-        .doc(getters.getUser.data.userId)
-        .update({
-          //TODO Relevant stats will be updated (currently xp reward is just a number)
-          atk: newStats.atk,
-          str: newStats.str
+      .where('taskId', '==', payload.taskId).limit(1)
+      .get()
+      .then((docRef) => {
+        const storeQuest = docRef.docs[0];
+        storeQuest.ref.update({
+          complete: true
         })
         .then(() => {
-          dispatch("FETCH_SKILLS");
+          console.log('Finish quest success');
+          
+          // Then update player stats. In state first.
+          const expReward: number = this.state.quests.filter((quest) => {
+            return quest.id === storeQuest.id
+          })[0].expReward
+          const newStats: Stats = {
+            level: getLevel(this.state.playerStats.level.curExp + expReward),
+            ////str: getLevel(this.state.playerStats.str.curExp + expReward)
+          }
+
+          // Commit to state.
+          const playerStats = newStats
+          commit('SET_STATS', { playerStats })
+
+          // Firestore.
+          if(this.state.user != null) {
+            db.collection('PlayerStats')
+            .doc(getters.getUser.data.userId)
+            .update({
+              //TODO Relevant stats will be updated (currently xp reward is just a number)
+              level: newStats.level,
+              ////str: newStats.str
+            })
+            .then(() => {
+              dispatch("FETCH_SKILLS");
+              dispatch('FETCH_QUESTS');
+            })
+            .catch((error) => {
+              console.error("Error: ", error);
+            })
+          }
         })
-        .catch((error) => {
-          console.error("Error: ", error);
+      })
+    },
+    // Delete a quest.
+    DELETE_QUEST ({ dispatch }, payload) {
+      //TODO update state first.
+      // Delete quest.
+      db.collection('OngoingQuests')
+      .where('taskId', '==', payload.taskId).limit(1)
+      .get()
+      .then((docRef) => {
+        const storeQuest = docRef.docs[0];
+        storeQuest.ref.delete()
+        .then(() => {
+          dispatch('FETCH_QUESTS');
+
+          console.log('Delete quest success');
         })
-      }
+      })
     }
   },
 

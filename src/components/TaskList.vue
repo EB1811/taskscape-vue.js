@@ -6,6 +6,9 @@
         <h1 v-for="task in tasks" :key="task.name">
             {{ task.name }} | Status: {{task.complete ? 'Complete' : 'Ongoing'}}
             <input type="checkbox" :checked="task.complete" :disabled="task.complete" @change="finishTask(task)"/>
+            <button class="class" @click="deleteTask(task)">
+                X
+            </button>
         </h1>
   </div>
 </template>
@@ -21,6 +24,16 @@ export default defineComponent({
             if(!task.complete) {
                 this.$store.dispatch('FINISH_TASK', {
                     finishedTaskId: task.id
+                })
+            }
+            else {
+                console.log("Error: task already complete");
+            }
+        },
+        deleteTask(task: Task) {
+            if(!task.complete) {
+                this.$store.dispatch('DELETE_TASK', {
+                    deletedTaskId: task.id
                 })
             }
             else {

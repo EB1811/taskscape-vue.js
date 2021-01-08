@@ -7,8 +7,9 @@ export interface Level {
 }
 // Format of Player Stats.
 export interface Stats {
-    atk: Level;
-    str: Level;
+    level: Level;
+    atk?: Level;
+    str?: Level;
     def?: Level;
 }
   
