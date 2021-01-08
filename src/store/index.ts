@@ -277,6 +277,9 @@ const store = createStore({
         commit('ADD_QUEST', { quests });
 
         // Add quest to firebase.
+        //TODO Create calculateQuestReward method which creates a object with specific level rewards.
+        //TODO Update FINISH_QUEST accordingly.
+        //TODO expReward: { atk: 20, str: 10, def: 0 }
         db.collection("OngoingQuests")
         .add({
           name: 'Complete task: "' + payload.name + '"',
