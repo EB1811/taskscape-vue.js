@@ -29,6 +29,9 @@
                       </router-link>
                   </li>
               </ul>
+              <div class="position-absolute" style="bottom: 5px; font-size: 0.700rem; color: #000">
+                  Created by Emmanuils Borovikovs
+              </div>
           </div>
           <div class="col-md-9">
               <h1 class="display-3 mt-5">
