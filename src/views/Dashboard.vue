@@ -33,10 +33,16 @@
                   Created by Emmanuils Borovikovs
               </div>
           </div>
-          <div class="col-md-9">
-              <h1 class="display-3 mt-5">
-                  Dashboard
-              </h1>
+          <div class="col-md-10">
+              <div class="container-fluid">
+                <div class="row">
+                    <h1 class="display-4 mt-5" style="display: inline-block; width: auto">
+                        Dashboard
+                    </h1>
+                </div>
+                <hr/>
+                <StatList/>
+              </div>
           </div>
       </div>
   </div>
@@ -44,16 +50,20 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';// @ is an alias to /src
+import StatList from '@/components/StatList.vue';
 
 /*
 import CreateTask from '@/components/CreateTask.vue';
-import StatList from '@/components/StatList.vue';
 import TaskList from '@/components/TaskList.vue';
 import QuestList from '@/components/QuestList.vue';
+
+                            <h4 style="display: inline-block; width: auto">Atk: </h4>
+                            <h4 style="display: inline-block; width: auto">Str: </h4>
+                            <h4 style="display: inline-block; width: auto">Def: </h4>
 */
 
 export default defineComponent({
-  //components: { CreateTask, StatList, TaskList, QuestList},
+  components: { StatList },
 });
 </script>
 
@@ -71,7 +81,7 @@ export default defineComponent({
     color: #51cc67;
 }
 #create {
-    background-color: #e9ebec;
+    background-color: #e2e2e2;
     color: #666666;
 }
 #create:hover {

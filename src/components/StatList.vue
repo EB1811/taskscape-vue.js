@@ -1,8 +1,8 @@
 <template>
-  <div class="class">
-      <h1 v-for="[name, level] in Object.entries(playerStats)" :key="name">
-          {{ name }}: {{ level.level }}, exp to next level: {{level.xpToNext}}
-      </h1>
+  <div class="row my-4" style="text-align: left">
+      <h4 style="width: auto" v-for="[name, level] in Object.entries(playerStats)" :key="name">
+          {{ name }}: {{ level.level }} <br/> exp to next level: {{level.xpToNext}}
+      </h4>
   </div>
 </template>
 
