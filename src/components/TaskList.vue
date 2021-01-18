@@ -1,15 +1,21 @@
 <template>
-  <div class="class">
-        <h1>
-            Tasks:
-        </h1>
-        <h1 v-for="task in tasks" :key="task.name">
-            {{ task.name }} | Status: {{task.complete ? 'Complete' : 'Ongoing'}}
-            <input type="checkbox" :checked="task.complete" :disabled="task.complete" @change="finishTask(task)"/>
-            <button class="class" @click="deleteTask(task)">
-                X
-            </button>
-        </h1>
+  <div class="row mt-4">
+      <div style="width: auto">
+      <div class="card" style="text-align: left; width: auto" v-for="task in tasks" :key="task.name">
+          <div class="card-body">
+            <h4 class="card-title">{{ task.name }}</h4>
+            <h6 class="card-subtitle text-muted mb-2">Status: {{task.complete ? 'Complete' : 'Ongoing'}}</h6>
+            <div class="mt-5">
+                <button class="btn btn-sm btn-outline-success" :disabled="task.complete" @click="finishTask(task)">
+                    Complete
+                </button>
+                <button class="btn btn-sm btn-outline-danger ms-2" @click="deleteTask(task)">
+                    Delete
+                </button>
+            </div>
+          </div>
+      </div>
+      </div>
   </div>
 </template>
 

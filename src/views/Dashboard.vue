@@ -35,13 +35,20 @@
           </div>
           <div class="col-md-10">
               <div class="container-fluid">
-                <div class="row">
-                    <h1 class="display-4 mt-5" style="display: inline-block; width: auto">
+                <div class="row mt-5">
+                    <h1 class="display-3" style="display: inline-block; width: auto">
                         Dashboard
                     </h1>
                 </div>
                 <hr/>
                 <StatList/>
+                <div class="row mt-5">
+                    <h1 class="display-6" style="display: inline-block; width: auto">
+                        Tasks
+                    </h1>
+                </div>
+                <hr/>
+                <TaskList/>
               </div>
           </div>
       </div>
@@ -51,19 +58,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue';// @ is an alias to /src
 import StatList from '@/components/StatList.vue';
+import TaskList from '@/components/TaskList.vue';
 
 /*
 import CreateTask from '@/components/CreateTask.vue';
-import TaskList from '@/components/TaskList.vue';
 import QuestList from '@/components/QuestList.vue';
-
-                            <h4 style="display: inline-block; width: auto">Atk: </h4>
-                            <h4 style="display: inline-block; width: auto">Str: </h4>
-                            <h4 style="display: inline-block; width: auto">Def: </h4>
 */
 
 export default defineComponent({
-  components: { StatList },
+  components: { StatList, TaskList },
 });
 </script>
 
