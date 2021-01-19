@@ -55,6 +55,8 @@ export default defineComponent({
                   time: parseInt(this.time)
                 })
 
+                this.$router.push('/dashboard')
+
                 ////console.log(this.$store.state.tasks)
                 ////console.log(this.$store.state.quests)
             }

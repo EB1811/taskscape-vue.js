@@ -1,20 +1,20 @@
 <template>
-  <div class="row mt-4">
-      <div style="width: auto">
-      <div class="card mb-3 me-3" style="text-align: left; width: auto" v-for="task in tasks" :key="task.name">
-          <div class="card-body">
-            <h4 class="card-title">{{ task.name }}</h4>
-            <h6 class="card-subtitle text-muted mb-2">Status: {{task.complete ? 'Complete' : 'Ongoing'}}</h6>
-            <div class="mt-5">
-                <button class="btn btn-sm btn-outline-success" :disabled="task.complete" @click="finishTask(task)">
-                    Complete
-                </button>
-                <button class="btn btn-sm btn-outline-danger ms-2" @click="deleteTask(task)">
-                    Delete
-                </button>
+  <div class="row mt-2 g-2">
+      <div class="col-md-3" v-for="task in tasks" :key="task.name">
+        <div class="card" style="text-align: left; width: auto">
+            <div class="card-body">
+                <h4 class="card-title">{{ task.name }}</h4>
+                <h6 class="card-subtitle text-muted mb-2">Status: {{task.complete ? 'Complete' : 'Ongoing'}}</h6>
+                <div class="mt-5">
+                    <button class="btn btn-sm btn-outline-success" :disabled="task.complete" @click="finishTask(task)">
+                        Complete
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger ms-2" @click="deleteTask(task)">
+                        Delete
+                    </button>
+                </div>
             </div>
-          </div>
-      </div>
+        </div>
       </div>
   </div>
 </template>
