@@ -2,7 +2,7 @@
   <div class="row mt-4">
       <div style="text-align: left" v-for="[name, level] in Object.entries(playerStats)" :key="name">
           <h4>{{ name }}</h4>
-          <p>Level: {{ level.level }}<br/>Exp to next level: {{level.xpToNext}}</p>
+          <p class="text-muted">Level: {{ level.level }}<br/>Exp to next level: {{level.xpToNext}}</p>
       </div>
   </div>
 </template>

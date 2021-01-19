@@ -24,14 +24,11 @@
                       </router-link>
                   </li>
                   <li class="nav-item mt-5">
-                      <router-link to="/" class="nav-link" id="create">
+                      <router-link to="/create" class="nav-link" id="create">
                         Create Task
                       </router-link>
                   </li>
               </ul>
-              <div class="position-absolute" style="bottom: 5px; font-size: 0.700rem; color: #000">
-                  Created by Emmanuils Borovikovs
-              </div>
           </div>
           <div class="col-md-10">
               <div class="container-fluid">
