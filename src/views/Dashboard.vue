@@ -40,8 +40,20 @@
                         Dashboard
                     </h1>
                 </div>
+                <div class="row mt-5">
+                    <h1 class="display-6" style="display: inline-block; width: auto">
+                        Stats
+                    </h1>
+                </div>
                 <hr/>
                 <StatList/>
+                <div class="row mt-5">
+                    <h1 class="display-6" style="display: inline-block; width: auto">
+                        Quests
+                    </h1>
+                </div>
+                <hr/>
+                <QuestList/>
                 <div class="row mt-5">
                     <h1 class="display-6" style="display: inline-block; width: auto">
                         Tasks
@@ -59,14 +71,10 @@
 import { defineComponent } from 'vue';// @ is an alias to /src
 import StatList from '@/components/StatList.vue';
 import TaskList from '@/components/TaskList.vue';
-
-/*
-import CreateTask from '@/components/CreateTask.vue';
 import QuestList from '@/components/QuestList.vue';
-*/
 
 export default defineComponent({
-  components: { StatList, TaskList },
+  components: { StatList, TaskList, QuestList },
 });
 </script>
 
@@ -85,7 +93,7 @@ export default defineComponent({
 }
 #create {
     background-color: #e2e2e2;
-    color: #666666;
+    color: #4d4d4d;
 }
 #create:hover {
     background-color: #7af190;

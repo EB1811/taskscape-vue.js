@@ -1,7 +1,7 @@
 <template>
   <div class="row mt-4">
       <div style="width: auto">
-      <div class="card" style="text-align: left; width: auto" v-for="task in tasks" :key="task.name">
+      <div class="card mb-3 me-3" style="text-align: left; width: auto" v-for="task in tasks" :key="task.name">
           <div class="card-body">
             <h4 class="card-title">{{ task.name }}</h4>
             <h6 class="card-subtitle text-muted mb-2">Status: {{task.complete ? 'Complete' : 'Ongoing'}}</h6>
