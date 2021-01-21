@@ -46,18 +46,18 @@
                 <StatList/>
                 <div class="row mt-5">
                     <h1 class="display-6" style="display: inline-block; width: auto">
-                        Quests
+                        Ongoing Quests
                     </h1>
                 </div>
                 <hr/>
-                <QuestList/>
+                <QuestList type="ongoing"/>
                 <div class="row mt-5">
                     <h1 class="display-6" style="display: inline-block; width: auto">
-                        Tasks
+                        Ongoing Tasks
                     </h1>
                 </div>
                 <hr/>
-                <TaskList/>
+                <TaskList type="ongoing"/>
               </div>
           </div>
       </div>
@@ -98,5 +98,4 @@ export default defineComponent({
 #create:hover {
     background-color: #7af190;
 }
-
 </style>

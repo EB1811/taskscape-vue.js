@@ -1,18 +1,28 @@
 <template>
-  <div class="row my-2 g-2">
-      <div class="col-md-2" v-for="task in tasks" :key="task.name">
+  <div class="row my-2 g-2" v-if="type === 'ongoing'">
+      <div class="col-md-2" v-for="task in ongoingTasks" :key="task.id">
         <div class="card" style="text-align: left; width: auto">
             <div class="card-body">
                 <h4 class="card-title">{{ task.name }}</h4>
-                <h6 class="card-subtitle text-muted mb-2">Status: {{task.complete ? 'Complete' : 'Ongoing'}}</h6>
+                <h6 class="card-subtitle text-muted mb-2">Status: Ongoing</h6>
                 <div class="mt-5">
-                    <button class="btn btn-sm btn-outline-success" :disabled="task.complete" @click="finishTask(task)">
+                    <button class="btn btn-sm btn-outline-success" @click="finishTask(task)">
                         Complete
                     </button>
                     <button class="btn btn-sm btn-outline-danger ms-2" @click="deleteTask(task)">
                         Delete
                     </button>
                 </div>
+            </div>
+        </div>
+      </div>
+  </div>
+  <div class="row my-2 g-2" v-else-if="type === 'complete'">
+      <div class="col-md-2" v-for="task in completedTasks" :key="task.id">
+        <div class="card" style="text-align: left; width: auto">
+            <div class="card-body">
+                <h4 class="card-title">{{ task.name }}</h4>
+                <h6 class="card-subtitle text-muted mb-2">Status: Complete</h6>
             </div>
         </div>
       </div>
@@ -25,6 +35,7 @@ import { mapGetters } from 'vuex';
 import { Task } from '@/types'
 
 export default defineComponent({
+    props: ['type'],
     methods: {
         finishTask(task: Task) {
             if(!task.complete) {
@@ -49,7 +60,8 @@ export default defineComponent({
     },
     computed: {
         ...mapGetters({
-            tasks: 'getTasks'
+            ongoingTasks: 'getOngoingTasks',
+            completedTasks: 'getCompletedTasks'
         })
     }
 })

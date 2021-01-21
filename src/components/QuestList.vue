@@ -1,10 +1,21 @@
 <template>
-    <div class="row mt-2 g-2">
-        <div class="col-md-3" v-for="quest in quests" :key="quest.name">
+    <div class="row mt-2 g-2" v-if="type === 'ongoing'">
+        <div class="col-md-3" v-for="quest in ongoingQuests" :key="quest.id">
             <div class="card" style="text-align: left; width: auto">
                 <div class="card-body">
                     <h4 class="card-title">{{ quest.name }}</h4>
-                    <h6 class="card-subtitle text-muted mb-2">Status: {{quest.complete ? 'Complete' : 'Ongoing'}}</h6>
+                    <h6 class="card-subtitle text-muted mb-2">Status: Ongoing</h6>
+                    <h6 class="card-subtitle text-muted">Reward: {{ quest.expReward }}xp</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 g-2" v-else-if="type === 'complete'">
+        <div class="col-md-3" v-for="quest in completedQuests" :key="quest.id">
+            <div class="card" style="text-align: left; width: auto">
+                <div class="card-body">
+                    <h4 class="card-title">{{ quest.name }}</h4>
+                    <h6 class="card-subtitle text-muted mb-2">Status: Complete</h6>
                     <h6 class="card-subtitle text-muted">Reward: {{ quest.expReward }}xp</h6>
                 </div>
             </div>
@@ -17,9 +28,11 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
+    props: ['type'],
     computed: {
         ...mapGetters({
-            quests: 'getQuests'
+            ongoingQuests: 'getOngoingQuests',
+            completedQuests: 'getCompletedQuests'
         })
     }
 })

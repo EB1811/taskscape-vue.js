@@ -16,11 +16,25 @@ const store = createStore({
   },
 
   getters: {
+    //TODO get all ongoing and completed quests / tasks.
+    //TODO get top x ongoing quests / tasks.
     getTasks (state) {
       return state.tasks;
     },
+    getOngoingTasks (state) {
+      return state.tasks.filter(task => !task.complete);
+    },
+    getCompletedTasks (state) {
+      return state.tasks.filter(task => task.complete);
+    },
     getQuests (state) {
       return state.quests;
+    },
+    getOngoingQuests (state) {
+      return state.quests.filter(quests => !quests.complete);
+    },
+    getCompletedQuests (state) {
+      return state.quests.filter(quests => quests.complete);
     },
     getStats (state) {
       return state.playerStats;
@@ -185,10 +199,10 @@ const store = createStore({
               expReward: doc.data().expReward,
               complete: doc.data().complete
             })
-
-            commit('ADD_QUEST', { quests });
-            console.log("Fetching quests success")
           });
+
+          commit('ADD_QUEST', { quests });
+            console.log("Fetching quests success")
         })
         .catch((error) => {
             console.log("Error getting documents: ", error);
@@ -350,6 +364,7 @@ const store = createStore({
       //TODO update state first.
       // Complete quest.
       db.collection('OngoingQuests')
+      .where('owner', '==', getters.getUser.data.userId) // Firebase evaluates the query against its potential result set. https://firebase.google.com/docs/firestore/security/rules-query#secure_and_query_documents_based_on_authuid
       .where('taskId', '==', payload.taskId).limit(1)
       .get()
       .then((docRef) => {
@@ -391,6 +406,9 @@ const store = createStore({
             })
           }
         })
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
       })
     },
     // Delete a quest.

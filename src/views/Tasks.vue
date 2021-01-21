@@ -43,14 +43,14 @@
                     </h1>
                 </div>
                 <hr/>
-                <TaskList/>
+                <TaskList type="ongoing"/>
                 <div class="row mt-5">
                     <h1 class="display-6" style="display: inline-block; width: auto">
                         Completed Tasks
                     </h1>
                 </div>
                 <hr/>
-                <TaskList/>
+                <TaskList type="complete"/>
               </div>
           </div>
       </div>

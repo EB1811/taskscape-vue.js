@@ -43,14 +43,14 @@
                     </h1>
                 </div>
                 <hr/>
-                <QuestList/>
+                <QuestList type="ongoing"/>
                 <div class="row mt-5">
                     <h1 class="display-6" style="display: inline-block; width: auto">
                         Completed Quests
                     </h1>
                 </div>
                 <hr/>
-                <QuestList/>
+                <QuestList type="complete"/>
               </div>
           </div>
       </div>
