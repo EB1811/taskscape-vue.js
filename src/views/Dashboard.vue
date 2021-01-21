@@ -14,12 +14,12 @@
                       </router-link>
                   </li>
                   <li class="nav-item">
-                      <router-link to="/" class="nav-link">
+                      <router-link to="/quests" class="nav-link">
                         Quests
                       </router-link>
                   </li>
                   <li class="nav-item">
-                      <router-link to="/" class="nav-link">
+                      <router-link to="/tasks" class="nav-link">
                         Tasks
                       </router-link>
                   </li>

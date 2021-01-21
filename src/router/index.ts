@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Create from '../views/Create.vue'
 import Player from '../views/Player.vue'
+import Quests from '../views/Quests.vue'
+import Tasks from '../views/Tasks.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +26,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/player',
     name: 'Player',
     component: Player
+  },
+  {
+    path: '/quests',
+    name: 'Quests',
+    component: Quests
+  },
+  {
+    path: '/tasks',
+    name: 'Tasks',
+    component: Tasks
   }
 ]
 
