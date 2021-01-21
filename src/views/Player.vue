@@ -4,12 +4,12 @@
           <div class="col-md-2 sidebar">
               <ul class="nav flex-column mt-4">
                   <li class="nav-item">
-                      <router-link to="/dashboard" class="nav-link" id="active">
+                      <router-link to="/dashboard" class="nav-link">
                         Dashboard
                       </router-link>
                   </li>
                   <li class="nav-item">
-                      <router-link to="/player" class="nav-link">
+                      <router-link to="/" class="nav-link"  id="active">
                         Player
                       </router-link>
                   </li>
@@ -34,7 +34,7 @@
               <div class="container-fluid">
                 <div class="row mt-5">
                     <h1 class="display-3" style="display: inline-block; width: auto">
-                        Dashboard
+                        Player
                     </h1>
                 </div>
                 <div class="row mt-5">
@@ -44,20 +44,6 @@
                 </div>
                 <hr/>
                 <StatList/>
-                <div class="row mt-5">
-                    <h1 class="display-6" style="display: inline-block; width: auto">
-                        Quests
-                    </h1>
-                </div>
-                <hr/>
-                <QuestList/>
-                <div class="row mt-5">
-                    <h1 class="display-6" style="display: inline-block; width: auto">
-                        Tasks
-                    </h1>
-                </div>
-                <hr/>
-                <TaskList/>
               </div>
           </div>
       </div>
@@ -67,36 +53,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';// @ is an alias to /src
 import StatList from '@/components/StatList.vue';
-import TaskList from '@/components/TaskList.vue';
-import QuestList from '@/components/QuestList.vue';
 
 export default defineComponent({
-  components: { StatList, TaskList, QuestList },
+  components: { StatList },
 });
 </script>
 
 <style lang="scss">
-.sidebar {
-    background-color: #f8f9fa;
-    border-right: solid 1px #c7c7c7;
-    font-size: 0.900rem;
-}
-.sidebar .nav-link {
-    font-weight: 700;
-    color: #777777;
-}
-#active {
-    color: #51cc67;
-}
-.sidebar .nav-link:hover {
-    color: #51cc67;
-}
-#create {
-    background-color: #e2e2e2;
-    color: #4d4d4d;
-}
-#create:hover {
-    background-color: #7af190;
-}
 
 </style>

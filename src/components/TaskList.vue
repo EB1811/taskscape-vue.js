@@ -1,6 +1,6 @@
 <template>
-  <div class="row mt-2 g-2">
-      <div class="col-md-3" v-for="task in tasks" :key="task.name">
+  <div class="row my-2 g-2">
+      <div class="col-md-2" v-for="task in tasks" :key="task.name">
         <div class="card" style="text-align: left; width: auto">
             <div class="card-body">
                 <h4 class="card-title">{{ task.name }}</h4>
