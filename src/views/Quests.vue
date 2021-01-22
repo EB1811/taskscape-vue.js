@@ -1,4 +1,5 @@
 <template>
+  <NavBar/>
   <div class="container-fluid min-vh-100">
       <div class="row min-vh-100">
           <div class="col-md-2 sidebar">
@@ -60,9 +61,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';// @ is an alias to /src
 import QuestList from '@/components/QuestList.vue';
+import NavBar from '@/components/NavBar.vue';
 
 export default defineComponent({
-  components: { QuestList },
+  components: { QuestList, NavBar },
 });
 </script>
 
