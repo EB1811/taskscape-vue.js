@@ -6,6 +6,7 @@ import Player from '../views/Player.vue'
 import Quests from '../views/Quests.vue'
 import Tasks from '../views/Tasks.vue'
 import LoginPage from '../views/LoginPage.vue';
+import RegisterPage from '../views/RegisterPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -42,6 +43,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'Login',
     component: LoginPage
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterPage
   }
 ]
 
