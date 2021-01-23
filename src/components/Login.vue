@@ -1,21 +1,19 @@
 <template>
   <div>
-    <form @submit.prevent="handleSubmit">
-      <div class="class">
-        <label>Email</label>
-        <input type="email" required v-model="email">
+    <form @submit.prevent="handleSubmit" style="text-align: left">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input class="form-control form-control-sm" type="email" required v-model="email">
       </div>
-      <div class="class">
-        <label>Password</label>
-        <input type="password" required v-model="password">
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input class="form-control form-control-sm" type="password" required v-model="password">
       </div>
 
-      <button class="class">Login</button>
+      <div style="text-align: center" class="mt-5">
+        <button class="btn btn-outline-dark">Login</button>
+      </div>
     </form>
-    
-    <div class="class">
-        {{user}}
-    </div>
   </div>
 </template>
 
@@ -36,12 +34,15 @@ export default defineComponent({
         })
     },
     methods: {
+        //TODO Cant login if already logged in + styling if login error e.g., wrong password.
         handleSubmit() {
             if(this.email && this.password) {
                 this.$store.dispatch('LOGIN', {
                   email: this.email,
                   password: this.password
                 })
+
+                this.$router.push('dashboard')
             }
         }
     }

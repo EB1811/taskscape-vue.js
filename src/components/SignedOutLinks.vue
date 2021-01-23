@@ -1,6 +1,6 @@
 <template>
     <li class="nav-item">
-        <router-link to="/" class="nav-link">Login</router-link>
+        <router-link to="/login" class="nav-link">Login</router-link>
     </li>
     <li class="nav-item">
         <router-link to="/" class="nav-link">Create Account</router-link>

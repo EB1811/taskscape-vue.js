@@ -25,3 +25,16 @@ export default defineComponent({
   components: { CreateTask, StatList, TaskList, QuestList, Login, Register, Logout },
 });
 </script>
+
+<style lang="scss">
+.centerCard {
+  background-color: #fff;
+  padding: 100px 50px;
+  box-shadow: 0 1px 4px #b3b3b3;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.formPage {
+  background-color: aliceblue;
+}
+</style>

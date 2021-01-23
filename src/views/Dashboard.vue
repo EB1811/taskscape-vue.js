@@ -2,7 +2,8 @@
     <NavBar/>
   <div class="container-fluid min-vh-100">
       <div class="row min-vh-100">
-          <div class="col-md-2 sidebar">
+          <div class="col-md-2 sidebar navbarOverlap">
+              <div class="container-fluid">
               <ul class="nav flex-column mt-4">
                   <li class="nav-item">
                       <router-link to="/dashboard" class="nav-link" id="active">
@@ -25,15 +26,16 @@
                       </router-link>
                   </li>
                   <li class="nav-item mt-5">
-                      <router-link to="/create" class="nav-link" id="create">
+                      <router-link to="/create" class="nav-link  mx-auto" id="create">
                         Create Task
                       </router-link>
                   </li>
               </ul>
+              </div>
           </div>
-          <div class="col-md-10">
+          <div class="col-md-10 navbarOverlap">
               <div class="container-fluid">
-                <div class="row mt-5">
+                <div class="row mt-3">
                     <h1 class="display-3" style="display: inline-block; width: auto">
                         Dashboard
                     </h1>
@@ -96,8 +98,12 @@ export default defineComponent({
 #create {
     background-color: #e2e2e2;
     color: #4d4d4d;
+    max-width: 175px;
 }
 #create:hover {
     background-color: #7af190;
+}
+.navbarOverlap {
+    margin-top: 57px;
 }
 </style>

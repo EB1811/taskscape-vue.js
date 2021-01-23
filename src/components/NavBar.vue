@@ -1,11 +1,11 @@
 <template>
-    <nav class="navbar navbar-expand navbar-dark justify-content-center align-items-start" style="background-color: #555555;">
+    <nav class="navbar fixed-top navbar-expand navbar-dark justify-content-center align-items-start" style="background-color: #555555;">
         <div class="me-auto order-0">
             <router-link to="/" class="navbar-brand ms-4" id="active" style="font-size: 27.5px">TaskScape</router-link>
         </div>
         <div class="order-1 me-4" style="height: 41px">
             <ul class="navbar-nav ms-auto">
-                <SignedInLinks v-if="user.LoggedIn"/>
+                <SignedInLinks v-if="user.loggedIn"/>
                 <SignedOutLinks v-else />
             </ul>
         </div>

@@ -1,9 +1,9 @@
 <template>
     <li class="nav-item">
-        <h5>Logged In</h5>
+        <span style="padding: 0.5rem; margin: 0px; font-size: 1rem; color: white; display: inline-block">Logged In</span>
     </li>
     <li class="nav-item">
-        <router-link to="/" class="nav-link">Logout</router-link>
+        <router-link to="/" @click="logout" class="nav-link">Logout</router-link>
     </li>
 </template>
 
@@ -11,6 +11,11 @@
 import { defineComponent } from 'vue';// @ is an alias to /src
 
 export default defineComponent({
+    methods: {
+        logout() {
+            this.$store.dispatch('LOGOUT')
+        }
+    }
 });
 </script>
 
