@@ -34,9 +34,9 @@ export default defineComponent({
                 this.$store.dispatch('CREATE_ACCOUNT', {
                   email: this.email,
                   password: this.password
+                }).then(() => {
+                  this.$router.push('dashboard')
                 })
-
-                this.$router.push('dashboard')
             }
         }
     }

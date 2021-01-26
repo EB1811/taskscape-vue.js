@@ -7,7 +7,6 @@ import Quests from '../views/Quests.vue'
 import Tasks from '../views/Tasks.vue'
 import LoginPage from '../views/LoginPage.vue';
 import RegisterPage from '../views/RegisterPage.vue';
-import firebase from 'firebase';
 
 import store from '../store';
 
@@ -82,7 +81,7 @@ const router = createRouter({
 
 
 const authUser = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (store.state.user.loggedIn === null) {
       const unwatch = store.watch(
         () => store.state.user.loggedIn,
@@ -101,15 +100,12 @@ router.beforeEach(async (to, from, next) => {
   const loggedIn = await authUser();
   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     next({ path: '/login' });
-    console.log("Here1");
   } 
   else if (to.matched.some(record => record.meta.hideForAuth) && loggedIn) {
     next({ path: '/dashboard' });
-    console.log("Here2");
   } 
   else {
     next();
-    console.log("Here3");
   }
 });
 

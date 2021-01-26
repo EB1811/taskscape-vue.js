@@ -78,27 +78,34 @@ const store = createStore({
   actions: {
     //* Authentication actions.
     CREATE_ACCOUNT ({dispatch}, payload) {
-      firebase.auth()
-      .createUserWithEmailAndPassword(payload.email, payload.password)
-      .then((userObject) => {
-        console.log("Registration success")
-
-        // Then create a player with using the user id.
-        dispatch('CREATE_PLAYER', { uId: userObject.user?.uid })
+      return new Promise((resolve, reject) => {
+        firebase.auth()
+        .createUserWithEmailAndPassword(payload.email, payload.password)
+        .then((userObject) => {
+          console.log("Registration success")
+          // Then create a player with using the user id.
+          dispatch('CREATE_PLAYER', { uId: userObject.user?.uid })
+          resolve("Success");
+        })
+        .catch((error) => {
+          console.log("Error: ", error);
+          reject;
+        });
       })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
     },
     LOGIN (state, payload) {
-      firebase.auth()
-      .signInWithEmailAndPassword(payload.email, payload.password)
-      .then(() => {
-        console.log("Login success")
+      return new Promise((resolve, reject) => {
+        firebase.auth()
+        .signInWithEmailAndPassword(payload.email, payload.password)
+        .then(() => {
+          console.log("Login success")
+          resolve("Success");
+        })
+        .catch((error) => {
+          console.log("Error: ", error);
+          reject;
+        });
       })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
     },
     LOGOUT () {
       firebase.auth()
