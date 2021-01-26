@@ -10,7 +10,7 @@ const store = createStore({
     tasks: [] as Task[],
     quests: [] as Quest[],
     user: {
-      loggedIn: false,
+      loggedIn: null,
       data: null
     }
   },
@@ -126,7 +126,6 @@ const store = createStore({
       dispatch("FETCH_TASKS");
       dispatch("FETCH_QUESTS");
     },
-
 
     // Player actions
     CREATE_PLAYER ({ dispatch }, payload) {
