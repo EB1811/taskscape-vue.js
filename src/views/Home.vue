@@ -1,27 +1,44 @@
 <template>
-    <div>
-        <Register />
-        <Login />
-        <StatList />
-        <CreateTask />
-        <TaskList />
-        <QuestList />
+    <div class="container-fluid min-vh-100 mainPage">
+        <div
+            class="row justify-content-center align-items-center"
+            style="min-height: 50vh"
+        >
+            <div class="col-xs-12 col-sm-3 m-3">
+                <h1 class="mainTitle">TaskScape</h1>
+                <h6 class="mainDesc">
+                    Complete Tasks. Earn Experience. Level Up.
+                </h6>
+            </div>
+        </div>
+        <div
+            class="row justify-content-center allign-items-center"
+            style="min-height: 50vh"
+        >
+            <div class="col-sm-4" style="max-width: 750px">
+                <div style="display: inline-block" class="mx-2">
+                    <router-link to="/tasks">
+                        <button class="btn btn-lg btn-outline-primary">
+                            Go to Dashboard
+                        </button>
+                    </router-link>
+                </div>
+                <div style="display: inline-block" class="mx-2">
+                    <router-link to="/register">
+                        <button class="btn btn-lg btn-outline-primary">
+                            Create Account
+                        </button>
+                    </router-link>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"; // @ is an alias to /src
 
-import CreateTask from "@/components/CreateTask.vue";
-import StatList from "@/components/StatList.vue";
-import TaskList from "@/components/TaskList.vue";
-import QuestList from "@/components/QuestList.vue";
-import Login from "@/components/Login.vue";
-import Register from "@/components/Register.vue";
-
-export default defineComponent({
-    components: { CreateTask, StatList, TaskList, QuestList, Login, Register },
-});
+export default defineComponent({});
 </script>
 
 <style lang="scss">
@@ -34,5 +51,16 @@ export default defineComponent({
 }
 .formPage {
     background-color: aliceblue;
+}
+.mainPage {
+    background-color: #232324;
+}
+.mainTitle {
+    font-size: 75px;
+    color: #ff6f2c;
+}
+.mainDesc {
+    font-size: 20px;
+    color: #fff;
 }
 </style>

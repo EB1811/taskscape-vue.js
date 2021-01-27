@@ -1,14 +1,13 @@
 <template>
     <nav
         class="navbar fixed-top navbar-expand navbar-dark justify-content-center align-items-start"
-        style="background-color: #555555;"
+        style="background-color: #444444;"
     >
         <div class="me-auto order-0">
             <router-link
                 to="/"
                 class="navbar-brand ms-4"
-                id="active"
-                style="font-size: 27.5px"
+                style="font-size: 27.5px; color: #ff6f2c"
                 >TaskScape</router-link
             >
         </div>

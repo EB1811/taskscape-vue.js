@@ -1,2 +1,11 @@
-
 @import "node_modules/bootstrap/scss/bootstrap";
+
+$buttonStyleColor: #ff6f2c;
+.btn-outline-primary {
+    @include button-outline-variant(
+        $buttonStyleColor,
+        #222222,
+        $buttonStyleColor,
+        $buttonStyleColor
+    );
+}

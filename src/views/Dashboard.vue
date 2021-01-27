@@ -110,10 +110,10 @@ export default defineComponent({
     color: #777777;
 }
 #active {
-    color: #51cc67;
+    color: #ff6f2c;
 }
 .sidebar .nav-link:hover {
-    color: #51cc67;
+    color: #ff6f2c;
 }
 #create {
     background-color: #e2e2e2;
@@ -121,7 +121,8 @@ export default defineComponent({
     max-width: 175px;
 }
 #create:hover {
-    background-color: #7af190;
+    background-color: #ff6f2c;
+    color: #fff;
 }
 .navbarOverlap {
     margin-top: 57px;
