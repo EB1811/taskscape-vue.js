@@ -17,7 +17,7 @@
         >
             <div class="col-sm-4" style="max-width: 750px">
                 <div style="display: inline-block" class="mx-2">
-                    <router-link to="/tasks">
+                    <router-link to="/dashboard">
                         <button class="btn btn-lg btn-outline-primary">
                             Go to Dashboard
                         </button>
