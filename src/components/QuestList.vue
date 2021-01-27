@@ -4,8 +4,12 @@
             <div class="card" style="text-align: left; width: auto">
                 <div class="card-body">
                     <h4 class="card-title">{{ quest.name }}</h4>
-                    <h6 class="card-subtitle text-muted mb-2">Status: Ongoing</h6>
-                    <h6 class="card-subtitle text-muted">Reward: {{ quest.expReward }}xp</h6>
+                    <h6 class="card-subtitle text-muted mb-2">
+                        Status: Ongoing
+                    </h6>
+                    <h6 class="card-subtitle text-muted">
+                        Reward: {{ quest.expReward }}xp
+                    </h6>
                 </div>
             </div>
         </div>
@@ -15,8 +19,12 @@
             <div class="card" style="text-align: left; width: auto">
                 <div class="card-body">
                     <h4 class="card-title">{{ quest.name }}</h4>
-                    <h6 class="card-subtitle text-muted mb-2">Status: Complete</h6>
-                    <h6 class="card-subtitle text-muted">Reward: {{ quest.expReward }}xp</h6>
+                    <h6 class="card-subtitle text-muted mb-2">
+                        Status: Complete
+                    </h6>
+                    <h6 class="card-subtitle text-muted">
+                        Reward: {{ quest.expReward }}xp
+                    </h6>
                 </div>
             </div>
         </div>
@@ -24,16 +32,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { mapGetters } from 'vuex';
+import { defineComponent } from "vue";
+import { mapGetters } from "vuex";
 
 export default defineComponent({
-    props: ['type'],
+    props: ["type"],
     computed: {
         ...mapGetters({
-            ongoingQuests: 'getOngoingQuests',
-            completedQuests: 'getCompletedQuests'
-        })
-    }
-})
+            ongoingQuests: "getOngoingQuests",
+            completedQuests: "getCompletedQuests",
+        }),
+    },
+});
 </script>

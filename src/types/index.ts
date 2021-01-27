@@ -12,13 +12,13 @@ export interface Stats {
     str?: Level;
     def?: Level;
 }
-  
+
 // Format of a task.
 export interface Task {
     id?: string;
     name: string;
     desc?: string;
-    difficulty: 1|2|3|4|5|6|7|8;
+    difficulty: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
     time: number;
     complete: boolean;
 }
