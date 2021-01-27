@@ -2,7 +2,9 @@
     <NavBar />
     <div class="container-fluid min-vh-100">
         <div class="row min-vh-100">
-            <div class="col-md-2 sidebar navbarOverlap">
+            <div
+                class="col-sm-4 col-md-4 col-lg-3 col-xl-2 sidebar navbarOverlap"
+            >
                 <div class="container-fluid">
                     <ul class="nav flex-column mt-4">
                         <li class="nav-item">
@@ -41,7 +43,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-10 navbarOverlap">
+            <div class="col navbarOverlap">
                 <div class="container-fluid">
                     <div class="row mt-3">
                         <h1

@@ -4,7 +4,7 @@
             class="row justify-content-center align-items-center"
             style="min-height: 50vh"
         >
-            <div class="col-xs-12 col-sm-3 m-3">
+            <div class="col-xs-12">
                 <h1 class="mainTitle">TaskScape</h1>
                 <h6 class="mainDesc">
                     Complete Tasks. Earn Experience. Level Up.
@@ -15,15 +15,15 @@
             class="row justify-content-center allign-items-center"
             style="min-height: 50vh"
         >
-            <div class="col-sm-4" style="max-width: 750px">
-                <div style="display: inline-block" class="mx-2">
+            <div class="col-sm-12" style="max-width: 750px">
+                <div style="display: inline-block" class="m-2">
                     <router-link to="/dashboard">
                         <button class="btn btn-lg btn-outline-primary">
                             Go to Dashboard
                         </button>
                     </router-link>
                 </div>
-                <div style="display: inline-block" class="mx-2">
+                <div style="display: inline-block" class="m-2">
                     <router-link to="/register">
                         <button class="btn btn-lg btn-outline-primary">
                             Create Account
@@ -62,5 +62,14 @@ export default defineComponent({});
 .mainDesc {
     font-size: 20px;
     color: #fff;
+}
+
+@media only screen and (max-width: 600px) {
+    .mainTitle {
+        font-size: 60px;
+    }
+    .mainDesc {
+        font-size: 16px;
+    }
 }
 </style>

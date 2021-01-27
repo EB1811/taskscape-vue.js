@@ -1,8 +1,13 @@
 <template>
     <NavBar />
     <div class="container-fluid min-vh-100 formPage">
-        <div class="row min-vh-100 justify-content-center align-items-center">
-            <div class="col-xs-12 col-sm-3 m-3 centerCard">
+        <div
+            class="row min-vh-100 justify-content-center align-items-center mx-1"
+        >
+            <div
+                class="col-xs-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 centerCard"
+                style="max-width: 450px"
+            >
                 <Login />
             </div>
         </div>
