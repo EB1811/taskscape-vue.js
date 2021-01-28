@@ -1,6 +1,10 @@
 <template>
     <div class="row mt-2 g-2" v-if="type === 'ongoing'">
-        <div class="col-md-3" v-for="quest in ongoingQuests" :key="quest.id">
+        <div
+            class="col-xm-12 col-md-6 col-lg-4 col-xl-3"
+            v-for="quest in ongoingQuests"
+            :key="quest.id"
+        >
             <div class="card" style="text-align: left; width: auto">
                 <div class="card-body">
                     <h4 class="card-title">{{ quest.name }}</h4>
@@ -15,10 +19,14 @@
         </div>
     </div>
     <div class="row mt-2 g-2" v-else-if="type === 'complete'">
-        <div class="col-md-3" v-for="quest in completedQuests" :key="quest.id">
+        <div
+            class="col-xm-12 col-md-6 col-lg-4 col-xl-3"
+            v-for="quest in completedQuests"
+            :key="quest.id"
+        >
             <div class="card" style="text-align: left; width: auto">
                 <div class="card-body">
-                    <h4 class="card-title">{{ quest.name }}</h4>
+                    <h5 class="card-title">{{ quest.name }}</h5>
                     <h6 class="card-subtitle text-muted mb-2">
                         Status: Complete
                     </h6>

@@ -3,19 +3,21 @@
         class="navbar fixed-top navbar-expand navbar-dark justify-content-center align-items-start"
         style="background-color: #444444;"
     >
-        <div class="me-auto order-0">
-            <router-link
-                to="/"
-                class="navbar-brand ms-4"
-                style="font-size: 27.5px; color: #ff6f2c"
-                >TaskScape</router-link
-            >
-        </div>
-        <div class="order-1 me-4" style="height: 41px">
-            <ul class="navbar-nav ms-auto">
-                <SignedInLinks v-if="user.loggedIn" />
-                <SignedOutLinks v-else />
-            </ul>
+        <div class="container-fluid">
+            <div class="me-auto order-0">
+                <router-link
+                    to="/"
+                    class="navbar-brand ms-1"
+                    style="color: #ff6f2c"
+                    >TaskScape</router-link
+                >
+            </div>
+            <div class="order-1 me-1 navBarSize" style="">
+                <ul class="navbar-nav ms-auto">
+                    <SignedInLinks v-if="user.loggedIn" />
+                    <SignedOutLinks v-else />
+                </ul>
+            </div>
         </div>
     </nav>
 </template>
@@ -36,4 +38,13 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.navbar-brand {
+    font-size: 27.5px;
+}
+@media only screen and (max-width: 375px) {
+    .navLinkSize {
+        font-size: 0.825em;
+    }
+}
+</style>

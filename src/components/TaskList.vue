@@ -1,6 +1,10 @@
 <template>
     <div class="row my-2 g-2" v-if="type === 'ongoing'">
-        <div class="col-md-2" v-for="task in ongoingTasks" :key="task.id">
+        <div
+            class="col-xm-12 col-md-6 col-lg-4 col-xl-2"
+            v-for="task in ongoingTasks"
+            :key="task.id"
+        >
             <div class="card" style="text-align: left; width: auto">
                 <div class="card-body">
                     <h4 class="card-title">{{ task.name }}</h4>
@@ -15,7 +19,7 @@
                             Complete
                         </button>
                         <button
-                            class="btn btn-sm btn-outline-danger ms-2"
+                            class="btn btn-sm btn-outline-danger m-2"
                             @click="deleteTask(task)"
                         >
                             Delete
@@ -26,10 +30,14 @@
         </div>
     </div>
     <div class="row my-2 g-2" v-else-if="type === 'complete'">
-        <div class="col-md-2" v-for="task in completedTasks" :key="task.id">
+        <div
+            class="col-xm-12 col-md-6 col-lg-4 col-xl-2"
+            v-for="task in completedTasks"
+            :key="task.id"
+        >
             <div class="card" style="text-align: left; width: auto">
                 <div class="card-body">
-                    <h4 class="card-title">{{ task.name }}</h4>
+                    <h5 class="card-title">{{ task.name }}</h5>
                     <h6 class="card-subtitle text-muted mb-2">
                         Status: Complete
                     </h6>
