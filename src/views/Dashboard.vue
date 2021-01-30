@@ -5,7 +5,7 @@
             <div
                 class="col-sm-4 col-md-4 col-lg-3 col-xl-2 sidebar navbarOverlap"
             >
-                <div class="container-fluid">
+                <div class="container-fluid sidebarSticky">
                     <ul class="nav flex-column mt-4">
                         <li class="nav-item">
                             <router-link
@@ -43,7 +43,9 @@
                     </ul>
                 </div>
             </div>
-            <div class="col navbarOverlap">
+            <div
+                class="col-sm-8 col-md-8 col-lg-9 col-xl-10 navbarOverlap ms-auto"
+            >
                 <div class="container-fluid">
                     <div class="row mt-3">
                         <h1
@@ -106,10 +108,19 @@ export default defineComponent({
     background-color: #f8f9fa;
     border-right: solid 1px #c7c7c7;
     font-size: 0.9rem;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 0;
 }
 .sidebar .nav-link {
     font-weight: 700;
     color: #777777;
+}
+.sidebarSticky {
+    position: sticky;
 }
 #active {
     color: #ff6f2c;
@@ -134,6 +145,7 @@ export default defineComponent({
     .sidebar {
         border-right: none;
         padding-bottom: 10px;
+        position: relative;
     }
 }
 </style>

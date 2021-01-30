@@ -43,7 +43,9 @@
                     </ul>
                 </div>
             </div>
-            <div class="col navbarOverlap">
+            <div
+                class="col-sm-8 col-md-8 col-lg-9 col-xl-10 navbarOverlap ms-auto"
+            >
                 <div class="container-fluid">
                     <div class="row mt-3">
                         <h1
