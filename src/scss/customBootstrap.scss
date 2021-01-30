@@ -1,6 +1,12 @@
+$navbar-dark-hover-color: #ff6f2c;
+$navbar-dark-active-color: #ff6f2c;
+
 @import "node_modules/bootstrap/scss/bootstrap";
 
 $buttonStyleColor: #ff6f2c;
+$inputBorderColor: #5e5e5e;
+$inputGlowColor: #0000004d;
+
 .btn-outline-primary {
     @include button-outline-variant(
         $buttonStyleColor,
@@ -8,4 +14,9 @@ $buttonStyleColor: #ff6f2c;
         $buttonStyleColor,
         $buttonStyleColor
     );
+}
+
+.form-control:focus {
+    border-color: $inputBorderColor;
+    box-shadow: 0 0 0 0.2rem $inputGlowColor;
 }
