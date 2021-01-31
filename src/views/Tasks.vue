@@ -2,50 +2,66 @@
     <NavBar />
     <div class="container-fluid min-vh-100">
         <div class="row min-vh-100">
-            <div
-                class="col-sm-4 col-md-4 col-lg-3 col-xl-2 sidebar navbarOverlap"
-            >
-                <div class="container-fluid">
-                    <ul class="nav flex-column mt-4">
-                        <li class="nav-item">
-                            <router-link to="/dashboard" class="nav-link">
-                                Dashboard
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link to="/player" class="nav-link">
-                                Player
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link to="/quests" class="nav-link">
-                                Quests
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link
-                                to="/tasks"
-                                class="nav-link"
-                                id="active"
-                            >
-                                Tasks
-                            </router-link>
-                        </li>
-                        <li class="nav-item mt-5">
-                            <router-link
-                                to="/create"
-                                class="nav-link mx-auto"
-                                id="create"
-                            >
-                                Create Task
-                            </router-link>
-                        </li>
+            <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2 sidebar">
+                <div class="sidebarSticky">
+                    <ul class="nav flex-column">
+                        <router-link
+                            to="/"
+                            class="navbar-brand"
+                            style="color: #ff6f2c; padding: 0.5rem 0; margin: 0px;"
+                            >TaskScape</router-link
+                        >
+                        <hr style="margin-top: 0px" />
+                        <router-link
+                            to="/dashboard"
+                            class="nav-link"
+                            style="padding: 0px"
+                        >
+                            <li class="sidebarBlockNav">
+                                <span>Dashboard</span>
+                            </li>
+                        </router-link>
+                        <router-link
+                            to="/player"
+                            class="nav-link"
+                            style="padding: 0px"
+                        >
+                            <li class="sidebarBlockNav">
+                                <span>Player</span>
+                            </li>
+                        </router-link>
+                        <router-link
+                            to="/quests"
+                            class="nav-link"
+                            style="padding: 0px"
+                        >
+                            <li class="sidebarBlockNav">
+                                <span>Quests</span>
+                            </li>
+                        </router-link>
+                        <router-link
+                            to="/tasks"
+                            class="nav-link"
+                            style="padding: 0px"
+                        >
+                            <li class="sidebarBlockNav" id="active">
+                                <span>Tasks</span>
+                            </li>
+                        </router-link>
+                        <hr />
+                        <router-link
+                            to="/create"
+                            class="nav-link"
+                            style="padding: 0px"
+                        >
+                            <button class="btn btn-md btn-outline-light">
+                                <span>Create Task</span>
+                            </button>
+                        </router-link>
                     </ul>
                 </div>
             </div>
-            <div
-                class="col-sm-8 col-md-8 col-lg-9 col-xl-10 navbarOverlap ms-auto"
-            >
+            <div class="col-sm-8 col-md-8 col-lg-9 col-xl-10 ms-auto">
                 <div class="container-fluid">
                     <div class="row mt-3">
                         <h1
