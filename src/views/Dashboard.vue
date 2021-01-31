@@ -121,7 +121,7 @@ export default defineComponent({
 
 <style lang="scss">
 .sidebar {
-    background-color: #232324;
+    background-color: #2e2e30;
     font-size: 0.9rem;
     position: fixed;
     top: 0;
@@ -138,16 +138,16 @@ export default defineComponent({
 }
 
 .sidebarBlockNav {
-    background-color: #232324;
+    background-color: #2e2e30;
     margin-top: 2px;
     padding: 25px 15px;
     text-align: left;
     border-left: solid 4px;
-    border-left-color: #232324;
+    border-left-color: #2e2e30;
     color: #aaa;
 }
 .sidebarBlockNav:hover {
-    background-color: #2b2b2b;
+    background-color: #3b3b3d;
     border-left-color: #fff;
     color: #fff;
 }
@@ -155,7 +155,7 @@ export default defineComponent({
 #active {
     color: #fff;
     border-left-color: #fff;
-    background-color: #2b2b2b;
+    background-color: #3b3b3d;
 }
 .sidebar .nav-link:hover {
     color: #ff6f2c;
