@@ -3,15 +3,8 @@
     <div class="container-fluid min-vh-100">
         <div class="row min-vh-100">
             <div class="col-sm-4 col-md-4 col-lg-3 col-xl-2 sidebar">
-                <div class="sidebarSticky">
+                <div class="sidebarSticky navbarOverlap">
                     <ul class="nav flex-column">
-                        <router-link
-                            to="/"
-                            class="navbar-brand"
-                            style="color: #ff6f2c; padding: 0.5rem 0; margin: 0px;"
-                            >TaskScape</router-link
-                        >
-                        <hr style="margin-top: 0px" />
                         <router-link
                             to="/dashboard"
                             class="nav-link"
@@ -48,20 +41,22 @@
                                 <span>Tasks</span>
                             </li>
                         </router-link>
-                        <hr />
                         <router-link
                             to="/create"
-                            class="nav-link"
+                            class="nav-link mt-4"
                             style="padding: 0px"
                         >
-                            <button class="btn btn-md btn-outline-light">
+                            <button class="btn btn-md btn-outline-dark">
                                 <span>Create Task</span>
                             </button>
                         </router-link>
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-8 col-md-8 col-lg-9 col-xl-10 ms-auto">
+            <div
+                class="col-sm-8 col-md-8 col-lg-9 col-xl-10 ms-auto navbarOverlap"
+                style="border-left: solid 1px #dddddd"
+            >
                 <div class="container-fluid">
                     <div class="row mt-3">
                         <h1
@@ -121,7 +116,7 @@ export default defineComponent({
 
 <style lang="scss">
 .sidebar {
-    background-color: #2e2e30;
+    background-color: #f8f9fa;
     font-size: 0.9rem;
     position: fixed;
     top: 0;
@@ -138,24 +133,24 @@ export default defineComponent({
 }
 
 .sidebarBlockNav {
-    background-color: #2e2e30;
+    background-color: #f8f9fa;
     margin-top: 2px;
     padding: 25px 15px;
     text-align: left;
     border-left: solid 4px;
-    border-left-color: #2e2e30;
+    border-left-color: #f8f9fa;
     color: #aaa;
 }
 .sidebarBlockNav:hover {
-    background-color: #3b3b3d;
-    border-left-color: #fff;
-    color: #fff;
+    background-color: #fff;
+    border-left-color: #ff6f2c;
+    color: #000;
 }
 
 #active {
-    color: #fff;
-    border-left-color: #fff;
-    background-color: #3b3b3d;
+    background-color: #fff;
+    border-left-color: #ff6f2c;
+    color: #000;
 }
 .sidebar .nav-link:hover {
     color: #ff6f2c;

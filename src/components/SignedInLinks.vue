@@ -2,7 +2,7 @@
     <li class="nav-item">
         <span
             class="navLinkSize"
-            style="padding: 0.5rem; margin: 0px; color: black; display: inline-block"
+            style="padding: 0.5rem; margin: 0px; color: white; display: inline-block"
             >Logged In</span
         >
     </li>

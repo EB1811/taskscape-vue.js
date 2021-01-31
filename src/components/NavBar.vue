@@ -1,13 +1,23 @@
 <template>
     <nav
-        class="navbar navbar-expand navbar-light justify-content-center align-items-start"
-        style="background-color: #fff; border-bottom: solid 1px #dddddd"
+        class="navbar navbar-expand fixed-top navbar-dark justify-content-center align-items-start"
+        style="background-color: #393939; border-bottom: solid 1px #dddddd"
     >
-        <div class="ms-auto me-3 navBarSize">
-            <ul class="navbar-nav ms-auto">
-                <SignedInLinks v-if="user.loggedIn" />
-                <SignedOutLinks v-else />
-            </ul>
+        <div class="container-fluid">
+            <div class="me-auto order-0">
+                <router-link
+                    to="/"
+                    class="navbar-brand ms-1"
+                    style="color: #ff6f2c"
+                    >TaskScape</router-link
+                >
+            </div>
+            <div class="order-1 me-1 navBarSize" style="">
+                <ul class="navbar-nav ms-auto">
+                    <SignedInLinks v-if="user.loggedIn" />
+                    <SignedOutLinks v-else />
+                </ul>
+            </div>
         </div>
     </nav>
 </template>
