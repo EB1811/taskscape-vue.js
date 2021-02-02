@@ -43,7 +43,7 @@
                         </router-link>
                         <router-link
                             to="/create"
-                            class="nav-link mt-4"
+                            class="nav-link mt-5"
                             style="padding: 0px"
                         >
                             <button class="btn btn-md btn-outline-dark">
@@ -136,7 +136,7 @@ export default defineComponent({
     background-color: #f8f9fa;
     margin-top: 2px;
     padding: 25px 15px;
-    text-align: left;
+    text-align: center;
     border-left: solid 4px;
     border-left-color: #f8f9fa;
     color: #aaa;

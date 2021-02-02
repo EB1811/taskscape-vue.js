@@ -1,16 +1,17 @@
 //* Typescript interfaces.
 // Level information format.
 export interface Level {
+    name: string;
     level: number;
     curExp: number;
     xpToNext: number;
 }
 // Format of Player Stats.
 export interface Stats {
-    level: Level;
-    atk?: Level;
-    str?: Level;
-    def?: Level;
+    level: Level; // Total
+    productivityL?: Level; // How much work done.
+    efficiencyL?: Level; // How quickly you do the work. In hours.
+    antiProcrastinationL?: Level; // Compare due date with done date.
 }
 
 // Format of a task.

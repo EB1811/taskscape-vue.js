@@ -144,7 +144,7 @@ const store = createStore({
 
         // Player actions
         CREATE_PLAYER({ dispatch }, payload) {
-            const newPlayerLevel: Level = getLevel(0);
+            const newPlayerLevel: Level = getLevel(0, "Total Level");
 
             db.collection("PlayerStats")
                 .doc(payload.uId)
@@ -395,10 +395,12 @@ const store = createStore({
                                     return quest.id === storeQuest.id;
                                 }
                             )[0].expReward;
+
                             const newStats: Stats = {
                                 level: getLevel(
                                     this.state.playerStats.level.curExp +
-                                        expReward
+                                        expReward,
+                                    this.state.playerStats.level.name
                                 ),
                                 ////str: getLevel(this.state.playerStats.str.curExp + expReward)
                             };

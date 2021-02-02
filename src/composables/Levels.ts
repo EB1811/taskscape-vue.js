@@ -8,7 +8,7 @@ const Levels = [
     { startExp: 1001, endExp: 1500 },
 ];
 
-export const getLevel = (exp: number): Level => {
+export const getLevel = (exp: number, level: string): Level => {
     const correctLevel: number = Levels.findIndex((level) => {
         ////console.log("Inside filter function: exp parameter = " + exp)
         return level.endExp > exp;
@@ -17,6 +17,7 @@ export const getLevel = (exp: number): Level => {
     ////console.log('Get level function: correctLevel = ' + correctLevel)
 
     const newLevel = {
+        name: level,
         level: correctLevel + 1,
         curExp: exp,
         xpToNext: Levels[correctLevel].endExp - exp,
