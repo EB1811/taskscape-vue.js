@@ -5,7 +5,7 @@
             v-for="[name, level] in Object.entries(playerStats)"
             :key="name"
         >
-            <h4>{{ name }}</h4>
+            <h4>{{ level.name }}</h4>
             <p class="text-muted">
                 Level: {{ level.level }}<br />Exp to next level:
                 {{ level.xpToNext }}

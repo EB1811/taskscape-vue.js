@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { Stats, Task, Quest, Level } from "@/types";
+import { Stats, Task, Quest } from "@/types";
 import { db } from "@/firebaseConfig";
 import { getLevel } from "@/composables/Levels";
 import firebase from "firebase";
@@ -142,16 +142,23 @@ const store = createStore({
             dispatch("FETCH_QUESTS");
         },
 
-        // Player actions
+        //* Player actions
         CREATE_PLAYER({ dispatch }, payload) {
-            const newPlayerLevel: Level = getLevel(0, "Total Level");
+            const newStats: Stats = {
+                level: getLevel(0, "Total Level"),
+                productivityL: getLevel(0, "Productivity"),
+                efficiencyL: getLevel(0, "Efficiency"),
+                antiProcrastinationL: getLevel(0, "Anti-Procrastination"),
+                predictabilityL: getLevel(0, "Predictability"),
+                prioritizationL: getLevel(0, "Prioritization"),
+                hardWorkerL: getLevel(0, "Hard Worker"),
+                smartWorkerL: getLevel(0, "Smart Worker"),
+            };
 
             db.collection("PlayerStats")
                 .doc(payload.uId)
                 .set({
-                    level: newPlayerLevel,
-                    ////str: newPlayerLevel,
-                    ////def: newPlayerLevel,
+                    stats: newStats,
                 })
                 .then(() => {
                     dispatch("FETCH_SKILLS");
@@ -234,13 +241,9 @@ const store = createStore({
                         let playerStats = {} as Stats;
                         const playerData = doc.data();
                         if (playerData) {
-                            playerStats = {
-                                level: playerData.level,
-                                ////str: playerData.str,
-                            };
+                            playerStats = playerData.stats;
 
                             commit("SET_STATS", { playerStats });
-
                             console.log("Fetching skills success");
                         }
                     })
