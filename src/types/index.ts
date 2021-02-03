@@ -38,7 +38,6 @@ export interface Quest {
     taskId: string;
     expReward: number;
     complete: boolean;
-    taskDueDate?: Date;
-    dateCreated?: Date;
+    dateCreated: Date;
     dateCompleted?: Date;
 }

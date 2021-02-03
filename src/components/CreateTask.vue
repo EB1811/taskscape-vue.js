@@ -82,7 +82,6 @@ export default defineComponent({
                     desc: this.desc,
                     difficulty: this.selectedDifficulty,
                     time: parseInt(this.time),
-                    dueDate: this.dueDate ? this.dueDate : null,
                 });
 
                 this.$router.push("/dashboard");

@@ -217,6 +217,7 @@ const store = createStore({
                                 taskId: doc.data().taskId,
                                 expReward: doc.data().expReward,
                                 complete: doc.data().complete,
+                                dateCreated: doc.data().dateCreated,
                             });
                         });
 
@@ -314,9 +315,6 @@ const store = createStore({
                             taskId: newTaskId,
                             expReward: payload.difficulty * payload.time,
                             complete: false,
-                            taskDueDate: payload.dueDate
-                                ? payload.dueDate
-                                : null,
                             dateCreated: new Date(),
                         });
                         commit("ADD_QUEST", { quests });
@@ -326,34 +324,14 @@ const store = createStore({
                         //TODO Update FINISH_QUEST accordingly.
                         //TODO expReward: { atk: 20, str: 10, def: 0 }
                         db.collection("OngoingQuests")
-                            .add(
-                                payload.dueDate
-                                    ? {
-                                          name:
-                                              'Complete task: "' +
-                                              payload.name +
-                                              '"',
-                                          taskId: newTaskId,
-                                          expReward:
-                                              payload.difficulty * payload.time,
-                                          complete: false,
-                                          dateCreated: new Date(),
-                                          owner: getters.getUser.data.userId,
-                                      }
-                                    : {
-                                          name:
-                                              'Complete task: "' +
-                                              payload.name +
-                                              '"',
-                                          taskId: newTaskId,
-                                          expReward:
-                                              payload.difficulty * payload.time,
-                                          complete: false,
-                                          taskDueDate: payload.dueDate,
-                                          dateCreated: new Date(),
-                                          owner: getters.getUser.data.userId,
-                                      }
-                            )
+                            .add({
+                                name: 'Complete task: "' + payload.name + '"',
+                                taskId: newTaskId,
+                                expReward: payload.difficulty * payload.time,
+                                complete: false,
+                                dateCreated: new Date(),
+                                owner: getters.getUser.data.userId,
+                            })
                             .then(() => {
                                 console.log("Document successfully written!");
                             })
@@ -433,15 +411,21 @@ const store = createStore({
                             console.log("Finish quest success");
 
                             // Then update player stats. In state first.
-                            // Get finished quest object from state.
+                            // Get finished quest and task object from state.
                             const finishedQuest: Quest = this.state.quests.filter(
                                 (quest) => {
                                     return quest.id === storeQuest.id;
                                 }
                             )[0];
+                            const finishedTask: Task = this.state.tasks.filter(
+                                (task) => {
+                                    return task.id === finishedQuest.taskId;
+                                }
+                            )[0];
                             // Finding what stats are increasing.
                             const newStats: Stats = UpdateStats(
                                 finishedQuest,
+                                finishedTask,
                                 this.state.playerStats
                             );
 

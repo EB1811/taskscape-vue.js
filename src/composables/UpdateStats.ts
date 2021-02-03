@@ -1,13 +1,18 @@
-import { Level, Stats, Quest } from "@/types";
+import { Stats, Quest, Task } from "@/types";
 import { getLevel } from "@/composables/Levels";
 import moment, { Moment } from "moment";
 
 export const UpdateStats = (
     finishedQuest: Quest,
+    finishedTask: Task,
     currentStats: Stats
 ): Stats => {
     // Helpers
-    const dateCompleted = new Date();
+    const dateCompleted: Date = new Date();
+    const completedMinusCreated: number = dateDiffInDays(
+        dateCompleted,
+        finishedQuest.dateCreated
+    );
 
     //* Exp amounts for each level.
     // Productivity
@@ -15,10 +20,6 @@ export const UpdateStats = (
     // Efficiency
     let efficiencyExp: number = 100;
     if (finishedQuest.dateCreated) {
-        const completedMinusCreated = dateDiffInDays(
-            dateCompleted,
-            finishedQuest.dateCreated
-        );
         efficiencyExp =
             completedMinusCreated > 0
                 ? 100 - completedMinusCreated * 5 > 0
@@ -28,13 +29,13 @@ export const UpdateStats = (
     }
     // Anti-Procrastination: date created - date due is a scale that date completed falls into.
     let antiProcrastinationExp: number = 0;
-    if (finishedQuest.taskDueDate && finishedQuest.dateCreated) {
+    if (finishedTask.dueDate) {
         const dueMinusCompleted = dateDiffInDays(
-            finishedQuest.taskDueDate,
+            finishedTask.dueDate,
             dateCompleted
         );
         const dueMinusCreated = dateDiffInDays(
-            finishedQuest.taskDueDate,
+            finishedTask.dueDate,
             finishedQuest.dateCreated
         );
         if (dueMinusCreated > 0) {
@@ -45,12 +46,31 @@ export const UpdateStats = (
         }
     }
     // Predictability
-
+    const predictabilityExp =
+        100 - 5 * Math.abs(completedMinusCreated - finishedTask.time) > 0
+            ? 100 - 5 * Math.abs(completedMinusCreated - finishedTask.time)
+            : 0;
     // Hard Worker
-
+    const hardWorkerExp =
+        finishedTask.difficulty < 5
+            ? finishedTask.difficulty *
+                  (completedMinusCreated / (6 - finishedTask.difficulty)) <
+              100
+                ? finishedTask.difficulty *
+                  (completedMinusCreated / (6 - finishedTask.difficulty))
+                : 100
+            : 0;
     // Smart Worker
-
-    // Prioritization
+    const smartWorkerExp =
+        finishedTask.difficulty > 4
+            ? finishedTask.difficulty *
+                  (13 - completedMinusCreated / finishedTask.difficulty) >
+              0
+                ? finishedTask.difficulty *
+                  (13 - completedMinusCreated / finishedTask.difficulty)
+                : 0
+            : 0;
+    //TODO Prioritization, add importance to task interface.
 
     //* Build new stats.
     const newStats: Stats = {
@@ -59,29 +79,36 @@ export const UpdateStats = (
             currentStats.level.name
         ),
         productivityL: getLevel(
-            productivityExp,
+            currentStats.productivityL.curExp + productivityExp,
             currentStats.productivityL.name
         ),
-        efficiencyL: getLevel(efficiencyExp, currentStats.efficiencyL.name),
+        efficiencyL: getLevel(
+            currentStats.efficiencyL.curExp + efficiencyExp,
+            currentStats.efficiencyL.name
+        ),
         antiProcrastinationL: getLevel(
-            antiProcrastinationExp,
+            currentStats.antiProcrastinationL.curExp + antiProcrastinationExp,
             currentStats.antiProcrastinationL.name
         ),
+        predictabilityL: getLevel(
+            currentStats.predictabilityL.curExp + predictabilityExp,
+            currentStats.predictabilityL.name
+        ),
+        hardWorkerL: getLevel(
+            currentStats.hardWorkerL.curExp + hardWorkerExp,
+            currentStats.hardWorkerL.name
+        ),
+        smartWorkerL: getLevel(
+            currentStats.smartWorkerL.curExp + smartWorkerExp,
+            currentStats.smartWorkerL.name
+        ),
+        prioritizationL: getLevel(0, currentStats.prioritizationL?.name),
     };
 
     return newStats;
 };
 
-/*
-level: Level; // Total
-productivityL: Level; // How much work done.
-efficiencyL: Level; // How quickly you do the work.
-antiProcrastinationL: Level; // When you finish the work in relation to the due date.
-predictabilityL: Level; // How close your estimated time to complete is to the actual time it took.
-hardWorkerL: Level; // Do low difficulty but time consuming task. OR just time consuming tasks.
-smartWorkerL: Level; // Do high difficulty but quick task. OR just difficult tasks.
-prioritizationL: Level; // How well you prioritize important work. When you finish important tasks while having unimportant tasks to do.
-*/
+// Helper Methods
 const dateDiffInDays = (dateA: Date, dateB: Date): number => {
     const momentDateA = moment(dateA);
     const momentDateB = moment(dateB);
