@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import { Stats, Task, Quest } from "@/types";
 import { db } from "@/firebaseConfig";
 import { getLevel } from "@/composables/Levels";
+import { UpdateStats } from "@/composables/UpdateStats";
 import firebase from "firebase";
 
 const store = createStore({
@@ -266,6 +267,7 @@ const store = createStore({
                     desc: payload.desc,
                     difficulty: payload.difficulty,
                     time: payload.time,
+                    dueDate: payload.dueDate ? payload.dueDate : null,
                     complete: false,
                 });
                 commit("ADD_TASK", { tasks });
@@ -273,15 +275,28 @@ const store = createStore({
                 // Add task to firestore.
                 let newTaskId = "";
                 db.collection("OngoingTasks")
-                    .add({
-                        name: payload.name,
-                        desc: payload.desc,
-                        difficulty: payload.difficulty,
-                        time: payload.time,
-                        complete: false,
-                        dataCreated: new Date(),
-                        owner: getters.getUser.data.userId,
-                    })
+                    .add(
+                        payload.dueDate
+                            ? {
+                                  name: payload.name,
+                                  desc: payload.desc,
+                                  difficulty: payload.difficulty,
+                                  time: payload.time,
+                                  complete: false,
+                                  dueDate: payload.dueDate,
+                                  dateCreated: new Date(),
+                                  owner: getters.getUser.data.userId,
+                              }
+                            : {
+                                  name: payload.name,
+                                  desc: payload.desc,
+                                  difficulty: payload.difficulty,
+                                  time: payload.time,
+                                  complete: false,
+                                  dateCreated: new Date(),
+                                  owner: getters.getUser.data.userId,
+                              }
+                    )
                     .then((docRef) => {
                         console.log("Document successfully written!");
                         newTaskId = docRef.id;
@@ -299,6 +314,10 @@ const store = createStore({
                             taskId: newTaskId,
                             expReward: payload.difficulty * payload.time,
                             complete: false,
+                            taskDueDate: payload.dueDate
+                                ? payload.dueDate
+                                : null,
+                            dateCreated: new Date(),
                         });
                         commit("ADD_QUEST", { quests });
 
@@ -307,14 +326,34 @@ const store = createStore({
                         //TODO Update FINISH_QUEST accordingly.
                         //TODO expReward: { atk: 20, str: 10, def: 0 }
                         db.collection("OngoingQuests")
-                            .add({
-                                name: 'Complete task: "' + payload.name + '"',
-                                taskId: newTaskId,
-                                expReward: payload.difficulty * payload.time,
-                                complete: false,
-                                dataCreated: new Date(),
-                                owner: getters.getUser.data.userId,
-                            })
+                            .add(
+                                payload.dueDate
+                                    ? {
+                                          name:
+                                              'Complete task: "' +
+                                              payload.name +
+                                              '"',
+                                          taskId: newTaskId,
+                                          expReward:
+                                              payload.difficulty * payload.time,
+                                          complete: false,
+                                          dateCreated: new Date(),
+                                          owner: getters.getUser.data.userId,
+                                      }
+                                    : {
+                                          name:
+                                              'Complete task: "' +
+                                              payload.name +
+                                              '"',
+                                          taskId: newTaskId,
+                                          expReward:
+                                              payload.difficulty * payload.time,
+                                          complete: false,
+                                          taskDueDate: payload.dueDate,
+                                          dateCreated: new Date(),
+                                          owner: getters.getUser.data.userId,
+                                      }
+                            )
                             .then(() => {
                                 console.log("Document successfully written!");
                             })
@@ -388,25 +427,23 @@ const store = createStore({
                     storeQuest.ref
                         .update({
                             complete: true,
+                            dateCompleted: new Date(),
                         })
                         .then(() => {
                             console.log("Finish quest success");
 
                             // Then update player stats. In state first.
-                            const expReward: number = this.state.quests.filter(
+                            // Get finished quest object from state.
+                            const finishedQuest: Quest = this.state.quests.filter(
                                 (quest) => {
                                     return quest.id === storeQuest.id;
                                 }
-                            )[0].expReward;
-
-                            const newStats: Stats = {
-                                level: getLevel(
-                                    this.state.playerStats.level.curExp +
-                                        expReward,
-                                    this.state.playerStats.level.name
-                                ),
-                                ////str: getLevel(this.state.playerStats.str.curExp + expReward)
-                            };
+                            )[0];
+                            // Finding what stats are increasing.
+                            const newStats: Stats = UpdateStats(
+                                finishedQuest,
+                                this.state.playerStats
+                            );
 
                             // Commit to state.
                             const playerStats = newStats;
@@ -418,8 +455,7 @@ const store = createStore({
                                     .doc(getters.getUser.data.userId)
                                     .update({
                                         //TODO Relevant stats will be updated (currently xp reward is just a number)
-                                        level: newStats.level,
-                                        ////str: newStats.str
+                                        stats: newStats,
                                     })
                                     .then(() => {
                                         dispatch("FETCH_SKILLS");

@@ -39,6 +39,14 @@
                 v-model="time"
             />
         </div>
+        <div class="mb-5">
+            <label class="form-label me-4">Due Date (Optional): </label>
+            <input
+                type="date"
+                class="form-control form-control-sm"
+                v-model="dueDate"
+            />
+        </div>
 
         <div style="text-align: center">
             <button class="btn btn-outline-dark">Create Task</button>
@@ -48,6 +56,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"; // @ is an alias to /src
+
+//! Input type date returns a string!
 
 export default defineComponent({
     data() {
@@ -61,6 +71,7 @@ export default defineComponent({
             ],
             selectedDifficulty: 0,
             time: "",
+            dueDate: "",
         };
     },
     methods: {
@@ -71,6 +82,7 @@ export default defineComponent({
                     desc: this.desc,
                     difficulty: this.selectedDifficulty,
                     time: parseInt(this.time),
+                    dueDate: this.dueDate ? this.dueDate : null,
                 });
 
                 this.$router.push("/dashboard");
