@@ -26,7 +26,7 @@ export interface Task {
     id?: string;
     name: string;
     desc?: string;
-    difficulty: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    difficulty: 1 | 2 | 3 | 4 | 5 | 6;
     time: number;
     dueDate?: Date;
     complete: boolean;

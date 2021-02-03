@@ -31,7 +31,7 @@
             </select>
         </div>
         <div class="mb-5">
-            <label class="form-label me-4">Estimated length: </label>
+            <label class="form-label me-4">Estimated length in hours: </label>
             <input
                 type="number"
                 class="form-control form-control-sm"
@@ -56,8 +56,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"; // @ is an alias to /src
-
-//! Input type date returns a string!
+import moment from "moment";
 
 export default defineComponent({
     data() {
@@ -65,9 +64,12 @@ export default defineComponent({
             name: "",
             desc: "",
             difficulty: [
-                { text: "Easy", value: 1 },
-                { text: "Medium", value: 2 },
-                { text: "Hard", value: 3 },
+                { text: "Very Easy", value: 1 },
+                { text: "Easy", value: 2 },
+                { text: "Slightly Challenging", value: 3 },
+                { text: "Challenging", value: 4 },
+                { text: "Very Hard", value: 5 },
+                { text: "Extremely Hard", value: 6 },
             ],
             selectedDifficulty: 0,
             time: "",
@@ -82,10 +84,12 @@ export default defineComponent({
                     desc: this.desc,
                     difficulty: this.selectedDifficulty,
                     time: parseInt(this.time),
+                    dueDate: this.dueDate
+                        ? moment(this.dueDate).toDate()
+                        : null,
                 });
 
                 this.$router.push("/dashboard");
-
                 ////console.log(this.$store.state.tasks)
                 ////console.log(this.$store.state.quests)
             }

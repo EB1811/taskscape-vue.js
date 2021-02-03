@@ -181,14 +181,24 @@ const store = createStore({
                     .then((querySnapshot) => {
                         const tasks: Task[] = [];
                         querySnapshot.forEach((doc) => {
-                            tasks.push({
-                                id: doc.id,
-                                name: doc.data().name,
-                                desc: doc.data().description,
-                                difficulty: doc.data().difficulty,
-                                time: doc.data().time,
-                                complete: doc.data().complete,
-                            });
+                            doc.data().dueDate
+                                ? tasks.push({
+                                      id: doc.id,
+                                      name: doc.data().name,
+                                      desc: doc.data().description,
+                                      difficulty: doc.data().difficulty,
+                                      time: doc.data().time,
+                                      complete: doc.data().complete,
+                                      dueDate: doc.data().dueDate,
+                                  })
+                                : tasks.push({
+                                      id: doc.id,
+                                      name: doc.data().name,
+                                      desc: doc.data().description,
+                                      difficulty: doc.data().difficulty,
+                                      time: doc.data().time,
+                                      complete: doc.data().complete,
+                                  });
                         });
 
                         commit("ADD_TASK", { tasks });
@@ -217,7 +227,7 @@ const store = createStore({
                                 taskId: doc.data().taskId,
                                 expReward: doc.data().expReward,
                                 complete: doc.data().complete,
-                                dateCreated: doc.data().dateCreated,
+                                dateCreated: doc.data().dateCreated.toDate(),
                             });
                         });
 
@@ -419,9 +429,12 @@ const store = createStore({
                             )[0];
                             const finishedTask: Task = this.state.tasks.filter(
                                 (task) => {
-                                    return task.id === finishedQuest.taskId;
+                                    return task.id === payload.taskId;
                                 }
                             )[0];
+
+                            console.log(finishedQuest.dateCreated);
+
                             // Finding what stats are increasing.
                             const newStats: Stats = UpdateStats(
                                 finishedQuest,

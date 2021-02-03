@@ -1,6 +1,18 @@
 import { Stats, Quest, Task } from "@/types";
 import { getLevel } from "@/composables/Levels";
-import moment, { Moment } from "moment";
+import moment from "moment";
+
+// Helper Methods
+const dateDiffInHours = (dateA: Date, dateB: Date): number => {
+    const momentDateA = moment(dateA);
+    const momentDateB = moment(dateB);
+    return momentDateB.diff(momentDateA, "hours");
+};
+const dateDiffInDays = (dateA: Date, dateB: Date): number => {
+    const momentDateA = moment(dateA);
+    const momentDateB = moment(dateB);
+    return momentDateB.diff(momentDateA, "days");
+};
 
 export const UpdateStats = (
     finishedQuest: Quest,
@@ -9,26 +21,25 @@ export const UpdateStats = (
 ): Stats => {
     // Helpers
     const dateCompleted: Date = new Date();
-    const completedMinusCreated: number = dateDiffInDays(
+
+    const completedMinusCreated: number = dateDiffInHours(
         dateCompleted,
         finishedQuest.dateCreated
     );
+    ////console.log("completedMinusCreated: " + completedMinusCreated);
 
     //* Exp amounts for each level.
     // Productivity
     const productivityExp: number = finishedQuest.expReward;
     // Efficiency
-    let efficiencyExp: number = 100;
-    if (finishedQuest.dateCreated) {
-        efficiencyExp =
-            completedMinusCreated > 0
-                ? 100 - completedMinusCreated * 5 > 0
-                    ? 100 - completedMinusCreated * 5
-                    : 100 / completedMinusCreated
-                : 100;
-    }
+    const efficiencyExp =
+        completedMinusCreated > 0
+            ? 100 - completedMinusCreated * 5 > 0
+                ? 100 - completedMinusCreated * 5
+                : 100 / completedMinusCreated
+            : 100;
     // Anti-Procrastination: date created - date due is a scale that date completed falls into.
-    let antiProcrastinationExp: number = 0;
+    let antiProcrastinationExp = 0;
     if (finishedTask.dueDate) {
         const dueMinusCompleted = dateDiffInDays(
             finishedTask.dueDate,
@@ -38,6 +49,8 @@ export const UpdateStats = (
             finishedTask.dueDate,
             finishedQuest.dateCreated
         );
+        ////console.log("dueMinusCompleted: " + dueMinusCompleted);
+        ////console.log("dueMinusCreated: " + dueMinusCreated);
         if (dueMinusCreated > 0) {
             antiProcrastinationExp =
                 dueMinusCompleted > 0
@@ -52,9 +65,9 @@ export const UpdateStats = (
             : 0;
     // Hard Worker
     const hardWorkerExp =
-        finishedTask.difficulty < 5
+        finishedTask.difficulty < 4
             ? finishedTask.difficulty *
-                  (completedMinusCreated / (6 - finishedTask.difficulty)) <
+                  (completedMinusCreated / (4 - finishedTask.difficulty)) <
               100
                 ? finishedTask.difficulty *
                   (completedMinusCreated / (6 - finishedTask.difficulty))
@@ -62,15 +75,24 @@ export const UpdateStats = (
             : 0;
     // Smart Worker
     const smartWorkerExp =
-        finishedTask.difficulty > 4
+        finishedTask.difficulty > 3
             ? finishedTask.difficulty *
-                  (13 - completedMinusCreated / finishedTask.difficulty) >
+                  (17 - (completedMinusCreated * 3) / finishedTask.difficulty) >
               0
                 ? finishedTask.difficulty *
-                  (13 - completedMinusCreated / finishedTask.difficulty)
+                  (17 - (completedMinusCreated * 3) / finishedTask.difficulty)
                 : 0
             : 0;
     //TODO Prioritization, add importance to task interface.
+
+    console.log(
+        "prod to smart xp order: " + productivityExp,
+        +" " + efficiencyExp,
+        +" " + antiProcrastinationExp,
+        +" " + predictabilityExp,
+        +" " + hardWorkerExp,
+        +" " + smartWorkerExp
+    );
 
     //* Build new stats.
     const newStats: Stats = {
@@ -106,13 +128,4 @@ export const UpdateStats = (
     };
 
     return newStats;
-};
-
-// Helper Methods
-const dateDiffInDays = (dateA: Date, dateB: Date): number => {
-    const momentDateA = moment(dateA);
-    const momentDateB = moment(dateB);
-    console.log(momentDateB.diff(momentDateA, "hours"));
-
-    return momentDateB.diff(momentDateA, "hours");
 };
