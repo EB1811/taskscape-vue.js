@@ -171,6 +171,7 @@ const store = createStore({
         },
 
         //* Fetching from firestore.
+        //TODO Fetch in some order.
         // Get tasks from firestore.
         FETCH_TASKS({ commit, getters }) {
             if (getters.getUser.loggedIn) {
@@ -189,7 +190,7 @@ const store = createStore({
                                       difficulty: doc.data().difficulty,
                                       time: doc.data().time,
                                       complete: doc.data().complete,
-                                      dueDate: doc.data().dueDate,
+                                      dueDate: doc.data().dueDate.toDate(),
                                   })
                                 : tasks.push({
                                       id: doc.id,
@@ -433,7 +434,7 @@ const store = createStore({
                                 }
                             )[0];
 
-                            console.log(finishedQuest.dateCreated);
+                            ////console.log(finishedQuest.dateCreated);
 
                             // Finding what stats are increasing.
                             const newStats: Stats = UpdateStats(

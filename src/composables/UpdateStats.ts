@@ -6,12 +6,12 @@ import moment from "moment";
 const dateDiffInHours = (dateA: Date, dateB: Date): number => {
     const momentDateA = moment(dateA);
     const momentDateB = moment(dateB);
-    return momentDateB.diff(momentDateA, "hours");
+    return momentDateA.diff(momentDateB, "hours");
 };
 const dateDiffInDays = (dateA: Date, dateB: Date): number => {
     const momentDateA = moment(dateA);
     const momentDateB = moment(dateB);
-    return momentDateB.diff(momentDateA, "days");
+    return momentDateA.diff(momentDateB, "days");
 };
 
 export const UpdateStats = (
@@ -32,6 +32,7 @@ export const UpdateStats = (
     // Productivity
     const productivityExp: number = finishedQuest.expReward;
     // Efficiency
+    console.log("Completed - created = " + completedMinusCreated);
     const efficiencyExp =
         completedMinusCreated > 0
             ? 100 - completedMinusCreated * 5 > 0
@@ -49,8 +50,8 @@ export const UpdateStats = (
             finishedTask.dueDate,
             finishedQuest.dateCreated
         );
-        ////console.log("dueMinusCompleted: " + dueMinusCompleted);
-        ////console.log("dueMinusCreated: " + dueMinusCreated);
+        console.log("dueMinusCompleted: " + dueMinusCompleted);
+        console.log("dueMinusCreated: " + dueMinusCreated);
         if (dueMinusCreated > 0) {
             antiProcrastinationExp =
                 dueMinusCompleted > 0
@@ -70,17 +71,21 @@ export const UpdateStats = (
                   (completedMinusCreated / (4 - finishedTask.difficulty)) <
               100
                 ? finishedTask.difficulty *
-                  (completedMinusCreated / (6 - finishedTask.difficulty))
+                  (completedMinusCreated / (4 - finishedTask.difficulty))
                 : 100
             : 0;
     // Smart Worker
     const smartWorkerExp =
         finishedTask.difficulty > 3
             ? finishedTask.difficulty *
-                  (17 - (completedMinusCreated * 3) / finishedTask.difficulty) >
+                  (17 -
+                      (completedMinusCreated * 10 + 2) /
+                          finishedTask.difficulty) >
               0
                 ? finishedTask.difficulty *
-                  (17 - (completedMinusCreated * 3) / finishedTask.difficulty)
+                  (17 -
+                      (completedMinusCreated * 10 + 2) /
+                          finishedTask.difficulty)
                 : 0
             : 0;
     //TODO Prioritization, add importance to task interface.

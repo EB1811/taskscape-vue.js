@@ -58,6 +58,8 @@
 import { defineComponent } from "vue"; // @ is an alias to /src
 import moment from "moment";
 
+//TODO Due date validation: can't be before todays date.
+
 export default defineComponent({
     data() {
         return {

@@ -24,6 +24,8 @@
 import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
 
+//TODO List skills in the same order each time.
+
 export default defineComponent({
     computed: {
         ...mapGetters({
