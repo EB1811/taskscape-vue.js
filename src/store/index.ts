@@ -171,7 +171,6 @@ const store = createStore({
         },
 
         //* Fetching from firestore.
-        //TODO Fetch in some order.
         // Get tasks from firestore.
         FETCH_TASKS({ commit, getters }) {
             if (getters.getUser.loggedIn) {
