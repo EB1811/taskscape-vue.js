@@ -178,6 +178,7 @@ const store = createStore({
                 console.log("Logged in. Fetching tasks");
                 db.collection("OngoingTasks")
                     .where("owner", "==", getters.getUser.data.userId)
+                    .orderBy("dateCreated")
                     .get()
                     .then((querySnapshot) => {
                         const tasks: Task[] = [];
@@ -218,6 +219,7 @@ const store = createStore({
                 console.log("Logged in. Fetching quests");
                 db.collection("OngoingQuests")
                     .where("owner", "==", getters.getUser.data.userId)
+                    .orderBy("dateCreated")
                     .get()
                     .then((querySnapshot) => {
                         const quests: Quest[] = [];
