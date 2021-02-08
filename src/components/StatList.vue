@@ -191,7 +191,7 @@ export default defineComponent({
     padding: 5px 0;
     position: absolute;
     z-index: 1;
-    top: 220%;
+    top: 250%;
     left: 35%;
     margin-left: -50%;
 
