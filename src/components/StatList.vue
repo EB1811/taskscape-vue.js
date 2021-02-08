@@ -1,7 +1,7 @@
 <template>
     <div v-if="playerStats.level">
-        <div class="row mt-4" style="text-align: left">
-            <div class="col">
+        <div class="row mt-4 g-1" style="text-align: left; max-width: 350px">
+            <div class="col-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.productivityL.name }}:
@@ -17,7 +17,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.efficiencyL.name }}:
@@ -33,23 +33,23 @@
                     </span>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
-                        {{ playerStats.efficiencyL.name }}:
-                        {{ playerStats.efficiencyL.level }}
+                        {{ playerStats.antiProcrastinationL.name }}:
+                        {{ playerStats.antiProcrastinationL.level }}
                     </h6>
                     <span class="text-muted statInfo">
-                        Current Exp: {{ playerStats.efficiencyL.curExp
+                        Current Exp: {{ playerStats.antiProcrastinationL.curExp
                         }}<br />Exp to next level:
-                        {{ playerStats.efficiencyL.xpToNext }}
+                        {{ playerStats.antiProcrastinationL.xpToNext }}
                     </span>
                     <span class="text-muted statDesc">
                         This is a description of the stat.
                     </span>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.predictabilityL.name }}:
@@ -65,7 +65,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.hardWorkerL.name }}:
@@ -81,7 +81,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.smartWorkerL.name }}:
@@ -101,7 +101,7 @@
         <div class="row mt-5" style="text-align: left">
             <div class="col-12">
                 <div
-                    class="statStyle p-2 statInfoContainer statDescContainer me-auto"
+                    class="totalStyle p-2 statInfoContainer statDescContainer me-auto"
                 >
                     <h5>
                         {{ playerStats.level.name }}:
@@ -111,9 +111,6 @@
                         Current Exp: {{ playerStats.level.curExp }}<br />Exp to
                         next level:
                         {{ playerStats.level.xpToNext }}
-                    </span>
-                    <span class="text-muted statDesc">
-                        This is a description of the stat.
                     </span>
                 </div>
             </div>
@@ -137,7 +134,15 @@ export default defineComponent({
 
 <style lang="scss">
 .statStyle {
-    text-align: center;
+    border-bottom: solid 1.5px #d8d8d8;
+    width: 160px;
+}
+.statStyle h6 {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+.totalStyle h5 {
+    margin-bottom: 0;
 }
 .statInfoContainer {
     position: relative;
