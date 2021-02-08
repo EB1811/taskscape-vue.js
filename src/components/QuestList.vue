@@ -5,7 +5,7 @@
             v-for="quest in ongoingQuests"
             :key="quest.id"
         >
-            <div class="card" style="text-align: left; width: auto">
+            <div class="card" style="text-align: left;left; height: 150px">
                 <div class="card-body">
                     <h4 class="card-title">{{ quest.name }}</h4>
                     <h6 class="card-subtitle text-muted mb-2">

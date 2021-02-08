@@ -5,34 +5,32 @@
             v-for="task in ongoingTasks"
             :key="task.id"
         >
-            <div class="card-group">
-                <div class="card" style="text-align: left; width: auto">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ task.name }}</h4>
-                        <h6 class="card-subtitle text-muted mb-2">
-                            Status: Ongoing
-                        </h6>
-                        <h6
-                            class="card-subtitle text-muted mb-2"
-                            v-if="task.dueDate"
+            <div class="card" style="text-align: left; height: 200px">
+                <div class="card-body">
+                    <h4 class="card-title">{{ task.name }}</h4>
+                    <h6 class="card-subtitle text-muted mb-2">
+                        Status: Ongoing
+                    </h6>
+                    <h6
+                        class="card-subtitle text-muted mb-2"
+                        v-if="task.dueDate"
+                    >
+                        Due:
+                        {{ task.dueDate.toLocaleDateString() }}
+                    </h6>
+                    <div style="position: absolute; bottom: 10px">
+                        <button
+                            class="btn btn-sm btn-outline-success"
+                            @click="finishTask(task)"
                         >
-                            Due:
-                            {{ task.dueDate.toLocaleDateString() }}
-                        </h6>
-                        <div class="mt-5">
-                            <button
-                                class="btn btn-sm btn-outline-success"
-                                @click="finishTask(task)"
-                            >
-                                Complete
-                            </button>
-                            <button
-                                class="btn btn-sm btn-outline-danger m-2"
-                                @click="deleteTask(task)"
-                            >
-                                Delete
-                            </button>
-                        </div>
+                            Complete
+                        </button>
+                        <button
+                            class="btn btn-sm btn-outline-danger m-2"
+                            @click="deleteTask(task)"
+                        >
+                            Delete
+                        </button>
                     </div>
                 </div>
             </div>
@@ -44,7 +42,7 @@
             v-for="task in completedTasks"
             :key="task.id"
         >
-            <div class="card" style="text-align: left; width: auto">
+            <div class="card h-100" style="text-align: left; width: auto">
                 <div class="card-body">
                     <h5 class="card-title">{{ task.name }}</h5>
                     <h6 class="card-subtitle text-muted mb-2">
@@ -90,4 +88,47 @@ export default defineComponent({
         }),
     },
 });
+
+/*
+<div class="" v-if="type === 'ongoing'">
+        <div class="">
+            <div class="card-group">
+                <div
+                    class="card"
+                    style="text-align: left; min-width: 18rem; max-width: 22rem;"
+                    v-for="task in ongoingTasks"
+                    :key="task.id"
+                >
+                    <div class="card-body">
+                        <h4 class="card-title">{{ task.name }}</h4>
+                        <h6 class="card-subtitle text-muted mb-2">
+                            Status: Ongoing
+                        </h6>
+                        <h6
+                            class="card-subtitle text-muted mb-2"
+                            v-if="task.dueDate"
+                        >
+                            Due:
+                            {{ task.dueDate.toLocaleDateString() }}
+                        </h6>
+                        <div class="mt-5">
+                            <button
+                                class="btn btn-sm btn-outline-success"
+                                @click="finishTask(task)"
+                            >
+                                Complete
+                            </button>
+                            <button
+                                class="btn btn-sm btn-outline-danger m-2"
+                                @click="deleteTask(task)"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+*/
 </script>
