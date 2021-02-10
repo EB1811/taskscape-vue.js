@@ -96,7 +96,7 @@ const store = createStore({
                     })
                     .catch((error) => {
                         console.log("Error: ", error);
-                        reject;
+                        reject(error);
                     });
             });
         },
@@ -111,7 +111,7 @@ const store = createStore({
                     })
                     .catch((error) => {
                         console.log("Error: ", error);
-                        reject;
+                        reject(error);
                     });
             });
         },

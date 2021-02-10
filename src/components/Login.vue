@@ -9,7 +9,7 @@
                 v-model="email"
             />
         </div>
-        <div class="mb-3">
+        <div class="mb-4">
             <label class="form-label">Password</label>
             <input
                 class="form-control form-control-sm"
@@ -18,8 +18,11 @@
                 v-model="password"
             />
         </div>
+        <div class="alert alert-danger" role="alert" v-if="error">
+            <span style="font-size: 0.9rem; font-weight: 400">{{ error }}</span>
+        </div>
 
-        <div style="text-align: center" class="mt-5">
+        <div style="text-align: center">
             <button class="btn btn-outline-dark">Login</button>
         </div>
     </form>
@@ -32,6 +35,7 @@ export default defineComponent({
         return {
             email: "",
             password: "",
+            error: "",
         };
     },
     methods: {
@@ -45,6 +49,9 @@ export default defineComponent({
                     })
                     .then(() => {
                         this.$router.push("dashboard");
+                    })
+                    .catch((err: Error) => {
+                        this.error = "Login Error: " + err.message;
                     });
             }
         },
