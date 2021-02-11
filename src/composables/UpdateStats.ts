@@ -102,31 +102,34 @@ export const UpdateStats = (
     //* Build new stats.
     const newStats: Stats = {
         level: getLevel(
-            currentStats.level.curExp + finishedQuest.expReward,
+            Math.round(currentStats.level.curExp + finishedQuest.expReward),
             currentStats.level.name
         ),
         productivityL: getLevel(
-            currentStats.productivityL.curExp + productivityExp,
+            Math.round(currentStats.productivityL.curExp + productivityExp),
             currentStats.productivityL.name
         ),
         efficiencyL: getLevel(
-            currentStats.efficiencyL.curExp + efficiencyExp,
+            Math.round(currentStats.efficiencyL.curExp + efficiencyExp),
             currentStats.efficiencyL.name
         ),
         antiProcrastinationL: getLevel(
-            currentStats.antiProcrastinationL.curExp + antiProcrastinationExp,
+            Math.round(
+                currentStats.antiProcrastinationL.curExp +
+                    antiProcrastinationExp
+            ),
             currentStats.antiProcrastinationL.name
         ),
         predictabilityL: getLevel(
-            currentStats.predictabilityL.curExp + predictabilityExp,
+            Math.round(currentStats.predictabilityL.curExp + predictabilityExp),
             currentStats.predictabilityL.name
         ),
         hardWorkerL: getLevel(
-            currentStats.hardWorkerL.curExp + hardWorkerExp,
+            Math.round(currentStats.hardWorkerL.curExp + hardWorkerExp),
             currentStats.hardWorkerL.name
         ),
         smartWorkerL: getLevel(
-            currentStats.smartWorkerL.curExp + smartWorkerExp,
+            Math.round(currentStats.smartWorkerL.curExp + smartWorkerExp),
             currentStats.smartWorkerL.name
         ),
         prioritizationL: getLevel(0, currentStats.prioritizationL?.name),
