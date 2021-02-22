@@ -1,7 +1,7 @@
 <template>
     <div v-if="playerStats.level">
         <div class="row mt-4 g-1" style="text-align: left; max-width: 350px">
-            <div class="col-6">
+            <div class="col-12 col-sm-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.productivityL.name }}:
@@ -17,7 +17,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-sm-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.efficiencyL.name }}:
@@ -33,7 +33,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-sm-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.antiProcrastinationL.name }}:
@@ -49,7 +49,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-sm-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.predictabilityL.name }}:
@@ -65,7 +65,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-sm-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.hardWorkerL.name }}:
@@ -81,7 +81,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-sm-6">
                 <div class="statStyle p-2 statInfoContainer statDescContainer">
                     <h6>
                         {{ playerStats.smartWorkerL.name }}:
@@ -135,11 +135,19 @@ export default defineComponent({
 <style lang="scss">
 .statStyle {
     border-bottom: solid 1.5px #d8d8d8;
-    width: 160px;
+    min-width: 160px;
 }
 .statStyle h6 {
     font-size: 0.9rem;
     margin-bottom: 0;
+    font-weight: 200;
+}
+@media only screen and (max-width: 600px) {
+    .statStyle h6 {
+        font-size: 1.15rem;
+        margin-bottom: 0;
+        font-weight: 200;
+    }
 }
 .totalStyle h5 {
     margin-bottom: 0;
