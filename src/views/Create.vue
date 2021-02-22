@@ -1,8 +1,13 @@
 <template>
     <NavBar />
     <div class="container-fluid min-vh-100 formPage">
-        <div class="row min-vh-100 justify-content-center align-items-center">
-            <div class="col-sm-3 m-3 centerCard">
+        <div
+            class="row navbarOverlap justify-content-center align-items-center min-vh-100"
+        >
+            <div
+                class="col-10 col-sm-8 col-md-6 col-lg-5 col-xl-4 centerCard m-3"
+                style="max-width: 500px"
+            >
                 <CreateTask />
             </div>
         </div>

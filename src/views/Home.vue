@@ -71,5 +71,8 @@ export default defineComponent({});
     .mainDesc {
         font-size: 16px;
     }
+    .centerCard {
+        padding: 50px 25px;
+    }
 }
 </style>
