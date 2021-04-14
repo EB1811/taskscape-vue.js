@@ -56,7 +56,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"; // @ is an alias to /src
-import moment from "moment";
 
 //TODO Due date validation: can't be before todays date.
 
@@ -86,9 +85,7 @@ export default defineComponent({
                     desc: this.desc,
                     difficulty: this.selectedDifficulty,
                     time: parseInt(this.time),
-                    dueDate: this.dueDate
-                        ? moment(this.dueDate).toDate()
-                        : null,
+                    dueDate: this.dueDate ? new Date(this.dueDate) : null,
                 });
 
                 this.$router.push("/dashboard");

@@ -3,7 +3,7 @@ import { Stats, Task, Quest } from "@/types";
 import { db } from "@/firebaseConfig";
 import { getLevel } from "@/composables/Levels";
 import { UpdateStats } from "@/composables/UpdateStats";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 const store = createStore({
     state: {

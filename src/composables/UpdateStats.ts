@@ -1,17 +1,12 @@
 import { Stats, Quest, Task } from "@/types";
 import { getLevel } from "@/composables/Levels";
-import moment from "moment";
 
 // Helper Methods
 const dateDiffInHours = (dateA: Date, dateB: Date): number => {
-    const momentDateA = moment(dateA);
-    const momentDateB = moment(dateB);
-    return momentDateA.diff(momentDateB, "hours");
+    return Math.abs(dateA.getTime() - dateB.getTime()) / 1000 / 3600;
 };
 const dateDiffInDays = (dateA: Date, dateB: Date): number => {
-    const momentDateA = moment(dateA);
-    const momentDateB = moment(dateB);
-    return momentDateA.diff(momentDateB, "days");
+    return Math.round(dateA.getTime() - dateB.getTime()) / 86400000;
 };
 
 export const UpdateStats = (
