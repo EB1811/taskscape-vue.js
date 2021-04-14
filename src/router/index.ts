@@ -1,25 +1,20 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
-import Dashboard from "../views/Dashboard.vue";
-import Create from "../views/Create.vue";
-import Player from "../views/Player.vue";
-import Quests from "../views/Quests.vue";
-import Tasks from "../views/Tasks.vue";
-import LoginPage from "../views/LoginPage.vue";
-import RegisterPage from "../views/RegisterPage.vue";
-
 import store from "../store";
+
+function lazyLoad(view: any) {
+    return () => import(`@/views/${view}.vue`);
+}
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
         name: "Home",
-        component: Home,
+        component: lazyLoad("Home"),
     },
     {
         path: "/dashboard",
         name: "Dashboard",
-        component: Dashboard,
+        component: lazyLoad("Dashboard"),
         meta: {
             requiresAuth: true,
         },
@@ -27,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/create",
         name: "Create",
-        component: Create,
+        component: lazyLoad("Create"),
         meta: {
             requiresAuth: true,
         },
@@ -35,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/player",
         name: "Player",
-        component: Player,
+        component: lazyLoad("Player"),
         meta: {
             requiresAuth: true,
         },
@@ -43,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/quests",
         name: "Quests",
-        component: Quests,
+        component: lazyLoad("Quests"),
         meta: {
             requiresAuth: true,
         },
@@ -51,7 +46,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/tasks",
         name: "Tasks",
-        component: Tasks,
+        component: lazyLoad("Tasks"),
         meta: {
             requiresAuth: true,
         },
@@ -59,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/login",
         name: "Login",
-        component: LoginPage,
+        component: lazyLoad("LoginPage"),
         meta: {
             hideForAuth: true,
         },
@@ -67,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/register",
         name: "Register",
-        component: RegisterPage,
+        component: lazyLoad("RegisterPage"),
         meta: {
             hideForAuth: true,
         },
