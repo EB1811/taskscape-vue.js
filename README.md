@@ -19,6 +19,6 @@ npm run build
 ```
 npm run lint
 ```
+---
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#### [Link to Live Website](https://taskscape-3cca5.web.app/)
